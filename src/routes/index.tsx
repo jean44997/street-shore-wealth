@@ -58,6 +58,7 @@ function Home() {
         <Logo size={40} priority />
         <Link
           to="/auth"
+          search={{ ref: undefined }}
           className="glass rounded-full px-4 py-2 text-sm font-semibold transition-transform duration-300 hover:scale-[1.03]"
         >
           Connexion
@@ -85,6 +86,7 @@ function Home() {
         <div className="rise mt-8 flex flex-wrap justify-center gap-3">
           <Link
             to="/auth"
+          search={{ ref: undefined }}
             className="glow inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-transform duration-300 hover:scale-[1.04]"
           >
             Créer mon compte <ArrowRight className="size-4" />

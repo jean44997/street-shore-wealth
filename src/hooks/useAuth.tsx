@@ -27,7 +27,7 @@ export function useRequireAuth() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !session) navigate({ to: "/auth" });
+    if (!loading && !session) navigate({ to: "/auth", search: { ref: undefined } });
   }, [loading, session, navigate]);
 
   return { session, loading };
