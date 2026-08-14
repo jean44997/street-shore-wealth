@@ -14,13 +14,200 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      deposits: {
+        Row: {
+          amount: number
+          created_at: string
+          credited_at: string | null
+          id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          credited_at?: string | null
+          id?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          credited_at?: string | null
+          id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          read: boolean
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          id?: string
+          read?: boolean
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          read?: boolean
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          balance: number
+          created_at: string
+          full_name: string
+          has_deposited: boolean
+          id: string
+          invite_code: string
+          phone: string
+          referred_by: string | null
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          full_name?: string
+          has_deposited?: boolean
+          id?: string
+          invite_code: string
+          phone?: string
+          referred_by?: string | null
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          full_name?: string
+          has_deposited?: boolean
+          id?: string
+          invite_code?: string
+          phone?: string
+          referred_by?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_referred_by_fkey"
+            columns: ["referred_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      withdrawals: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          status: string
+          user_id: string
+          wave_number: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          status?: string
+          user_id: string
+          wave_number: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          status?: string
+          user_id?: string
+          wave_number?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      ensure_profile: {
+        Args: { p_name: string; p_phone: string; p_ref_code: string }
+        Returns: {
+          balance: number
+          created_at: string
+          full_name: string
+          has_deposited: boolean
+          id: string
+          invite_code: string
+          phone: string
+          referred_by: string | null
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "profiles"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      my_referrals: {
+        Args: never
+        Returns: {
+          created_at: string
+          full_name: string
+          has_deposited: boolean
+        }[]
+      }
+      process_my_deposits: { Args: never; Returns: undefined }
+      referrer_name: { Args: { p_code: string }; Returns: string }
+      request_withdrawal: {
+        Args: { p_amount: number; p_number: string }
+        Returns: {
+          amount: number
+          created_at: string
+          id: string
+          status: string
+          user_id: string
+          wave_number: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "withdrawals"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      submit_deposit: {
+        Args: { p_amount: number }
+        Returns: {
+          amount: number
+          created_at: string
+          credited_at: string | null
+          id: string
+          status: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "deposits"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
     }
     Enums: {
       [_ in never]: never
