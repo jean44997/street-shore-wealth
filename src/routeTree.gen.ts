@@ -12,8 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BienvenueRouteImport } from './routes/bienvenue'
+import { Route as DepotRouteImport } from './routes/depot'
 import { Route as MerciRouteImport } from './routes/merci'
+import { Route as RetraitRouteImport } from './routes/retrait'
 import { Route as SupportRouteImport } from './routes/support'
+import { Route as TableauDeBordRouteImport } from './routes/tableau-de-bord'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -30,9 +33,19 @@ const BienvenueRoute = BienvenueRouteImport.update({
   path: '/bienvenue',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DepotRoute = DepotRouteImport.update({
+  id: '/depot',
+  path: '/depot',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MerciRoute = MerciRouteImport.update({
   id: '/merci',
   path: '/merci',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RetraitRoute = RetraitRouteImport.update({
+  id: '/retrait',
+  path: '/retrait',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SupportRoute = SupportRouteImport.update({
@@ -40,43 +53,85 @@ const SupportRoute = SupportRouteImport.update({
   path: '/support',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TableauDeBordRoute = TableauDeBordRouteImport.update({
+  id: '/tableau-de-bord',
+  path: '/tableau-de-bord',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
+  '/depot': typeof DepotRoute
   '/merci': typeof MerciRoute
+  '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
+  '/tableau-de-bord': typeof TableauDeBordRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
+  '/depot': typeof DepotRoute
   '/merci': typeof MerciRoute
+  '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
+  '/tableau-de-bord': typeof TableauDeBordRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
+  '/depot': typeof DepotRoute
   '/merci': typeof MerciRoute
+  '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
+  '/tableau-de-bord': typeof TableauDeBordRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/bienvenue' | '/merci' | '/support'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/bienvenue'
+    | '/depot'
+    | '/merci'
+    | '/retrait'
+    | '/support'
+    | '/tableau-de-bord'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/bienvenue' | '/merci' | '/support'
-  id: '__root__' | '/' | '/auth' | '/bienvenue' | '/merci' | '/support'
+  to:
+    | '/'
+    | '/auth'
+    | '/bienvenue'
+    | '/depot'
+    | '/merci'
+    | '/retrait'
+    | '/support'
+    | '/tableau-de-bord'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/bienvenue'
+    | '/depot'
+    | '/merci'
+    | '/retrait'
+    | '/support'
+    | '/tableau-de-bord'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   BienvenueRoute: typeof BienvenueRoute
+  DepotRoute: typeof DepotRoute
   MerciRoute: typeof MerciRoute
+  RetraitRoute: typeof RetraitRoute
   SupportRoute: typeof SupportRoute
+  TableauDeBordRoute: typeof TableauDeBordRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -102,11 +157,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BienvenueRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/depot': {
+      id: '/depot'
+      path: '/depot'
+      fullPath: '/depot'
+      preLoaderRoute: typeof DepotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/merci': {
       id: '/merci'
       path: '/merci'
       fullPath: '/merci'
       preLoaderRoute: typeof MerciRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/retrait': {
+      id: '/retrait'
+      path: '/retrait'
+      fullPath: '/retrait'
+      preLoaderRoute: typeof RetraitRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/support': {
@@ -116,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SupportRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tableau-de-bord': {
+      id: '/tableau-de-bord'
+      path: '/tableau-de-bord'
+      fullPath: '/tableau-de-bord'
+      preLoaderRoute: typeof TableauDeBordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -123,8 +199,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   BienvenueRoute: BienvenueRoute,
+  DepotRoute: DepotRoute,
   MerciRoute: MerciRoute,
+  RetraitRoute: RetraitRoute,
   SupportRoute: SupportRoute,
+  TableauDeBordRoute: TableauDeBordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
