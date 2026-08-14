@@ -1,0 +1,14 @@
+{
+  "name": "Street Shore",
+  "short_name": "Street Shore",
+  "description": "Rechargez 5 000 F via Wave et recevez jusqu'à 20 000 F sur votre solde.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b1a26",
+  "theme_color": "#0b1a26",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
