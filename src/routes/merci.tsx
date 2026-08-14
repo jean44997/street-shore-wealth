@@ -4,12 +4,12 @@ import { GlassCard } from "@/components/GlassCard";
 import { Logo } from "@/components/Logo";
 import { fcfa } from "@/lib/format";
 
-type Search = { code?: string; name?: string };
+type Search = { code: string | undefined; name: string | undefined };
 
 export const Route = createFileRoute("/merci")({
   validateSearch: (s: Record<string, unknown>): Search => ({
-    code: typeof s.code === "string" ? s.code : undefined,
-    name: typeof s.name === "string" ? s.name : undefined,
+    code: typeof s["code"] === "string" ? s["code"] : undefined,
+    name: typeof s["name"] === "string" ? s["name"] : undefined,
   }),
   head: () => ({
     meta: [

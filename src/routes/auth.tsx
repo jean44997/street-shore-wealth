@@ -7,11 +7,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { GlassCard } from "@/components/GlassCard";
 import { Logo } from "@/components/Logo";
 
-type Search = { ref?: string };
+type Search = { ref: string | undefined };
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, unknown>): Search => ({
-    ref: typeof search.ref === "string" ? search.ref.toUpperCase().slice(0, 12) : undefined,
+    ref: typeof search["ref"] === "string" ? search["ref"].toUpperCase().slice(0, 12) : undefined,
   }),
   head: () => ({
     meta: [

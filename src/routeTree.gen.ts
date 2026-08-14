@@ -10,10 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AmisRouteImport } from './routes/amis'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BienvenueRouteImport } from './routes/bienvenue'
 import { Route as DepotRouteImport } from './routes/depot'
 import { Route as MerciRouteImport } from './routes/merci'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as RetraitRouteImport } from './routes/retrait'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as TableauDeBordRouteImport } from './routes/tableau-de-bord'
@@ -21,6 +23,11 @@ import { Route as TableauDeBordRouteImport } from './routes/tableau-de-bord'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AmisRoute = AmisRouteImport.update({
+  id: '/amis',
+  path: '/amis',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -43,6 +50,11 @@ const MerciRoute = MerciRouteImport.update({
   path: '/merci',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RetraitRoute = RetraitRouteImport.update({
   id: '/retrait',
   path: '/retrait',
@@ -61,20 +73,24 @@ const TableauDeBordRoute = TableauDeBordRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/amis': typeof AmisRoute
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
   '/depot': typeof DepotRoute
   '/merci': typeof MerciRoute
+  '/notifications': typeof NotificationsRoute
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/amis': typeof AmisRoute
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
   '/depot': typeof DepotRoute
   '/merci': typeof MerciRoute
+  '/notifications': typeof NotificationsRoute
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
@@ -82,10 +98,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/amis': typeof AmisRoute
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
   '/depot': typeof DepotRoute
   '/merci': typeof MerciRoute
+  '/notifications': typeof NotificationsRoute
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
@@ -94,30 +112,36 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/amis'
     | '/auth'
     | '/bienvenue'
     | '/depot'
     | '/merci'
+    | '/notifications'
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/amis'
     | '/auth'
     | '/bienvenue'
     | '/depot'
     | '/merci'
+    | '/notifications'
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
   id:
     | '__root__'
     | '/'
+    | '/amis'
     | '/auth'
     | '/bienvenue'
     | '/depot'
     | '/merci'
+    | '/notifications'
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
@@ -125,10 +149,12 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AmisRoute: typeof AmisRoute
   AuthRoute: typeof AuthRoute
   BienvenueRoute: typeof BienvenueRoute
   DepotRoute: typeof DepotRoute
   MerciRoute: typeof MerciRoute
+  NotificationsRoute: typeof NotificationsRoute
   RetraitRoute: typeof RetraitRoute
   SupportRoute: typeof SupportRoute
   TableauDeBordRoute: typeof TableauDeBordRoute
@@ -141,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/amis': {
+      id: '/amis'
+      path: '/amis'
+      fullPath: '/amis'
+      preLoaderRoute: typeof AmisRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -171,6 +204,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MerciRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/retrait': {
       id: '/retrait'
       path: '/retrait'
@@ -197,10 +237,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AmisRoute: AmisRoute,
   AuthRoute: AuthRoute,
   BienvenueRoute: BienvenueRoute,
   DepotRoute: DepotRoute,
   MerciRoute: MerciRoute,
+  NotificationsRoute: NotificationsRoute,
   RetraitRoute: RetraitRoute,
   SupportRoute: SupportRoute,
   TableauDeBordRoute: TableauDeBordRoute,
