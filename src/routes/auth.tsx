@@ -52,19 +52,33 @@ function AuthPage() {
     code: ref ?? "",
   });
   const [sponsor, setSponsor] = useState<string | null>(null);
+  const [codeState, setCodeState] = useState<"empty" | "checking" | "valid" | "invalid">("empty");
 
   useEffect(() => {
     const code = form.code.trim().toUpperCase();
-    if (code.length < 4) {
+    if (code.length === 0) {
       setSponsor(null);
+      setCodeState("empty");
+      return;
+    }
+    if (!/^SS[A-Z0-9]{6}$/.test(code)) {
+      setSponsor(null);
+      setCodeState("invalid");
       return;
     }
     let active = true;
-    supabase.rpc("referrer_name", { p_code: code }).then(({ data }) => {
-      if (active) setSponsor((data as string | null) ?? null);
-    });
+    setCodeState("checking");
+    const t = setTimeout(() => {
+      supabase.rpc("referrer_name", { p_code: code }).then(({ data }) => {
+        if (!active) return;
+        const name = (data as string | null) ?? null;
+        setSponsor(name);
+        setCodeState(name ? "valid" : "invalid");
+      });
+    }, 350);
     return () => {
       active = false;
+      clearTimeout(t);
     };
   }, [form.code]);
 
