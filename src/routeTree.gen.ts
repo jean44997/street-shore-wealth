@@ -20,6 +20,7 @@ import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as RetraitRouteImport } from './routes/retrait'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as TableauDeBordRouteImport } from './routes/tableau-de-bord'
+import { Route as AdminCodeRouteImport } from './routes/admin.$code'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -76,6 +77,11 @@ const TableauDeBordRoute = TableauDeBordRouteImport.update({
   path: '/tableau-de-bord',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCodeRoute = AdminCodeRouteImport.update({
+  id: '/admin/$code',
+  path: '/admin/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
+  '/admin/$code': typeof AdminCodeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
+  '/admin/$code': typeof AdminCodeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -116,6 +124,7 @@ export interface FileRoutesById {
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
+  '/admin/$code': typeof AdminCodeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,6 +140,7 @@ export interface FileRouteTypes {
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
+    | '/admin/$code'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
+    | '/admin/$code'
   id:
     | '__root__'
     | '/'
@@ -157,6 +168,7 @@ export interface FileRouteTypes {
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
+    | '/admin/$code'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -171,6 +183,7 @@ export interface RootRouteChildren {
   RetraitRoute: typeof RetraitRoute
   SupportRoute: typeof SupportRoute
   TableauDeBordRoute: typeof TableauDeBordRoute
+  AdminCodeRoute: typeof AdminCodeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -252,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TableauDeBordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/$code': {
+      id: '/admin/$code'
+      path: '/admin/$code'
+      fullPath: '/admin/$code'
+      preLoaderRoute: typeof AdminCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -267,6 +287,7 @@ const rootRouteChildren: RootRouteChildren = {
   RetraitRoute: RetraitRoute,
   SupportRoute: SupportRoute,
   TableauDeBordRoute: TableauDeBordRoute,
+  AdminCodeRoute: AdminCodeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
