@@ -46,6 +46,14 @@ type Stats = {
   rechargers: number;
   blocked: number;
 };
+const ACTION_LABEL: Record<string, string> = {
+  approve: "Dépôt accepté",
+  reject: "Dépôt refusé",
+  reclaim: "Fonds repris",
+  block: "Compte bloqué",
+  unblock: "Compte débloqué",
+};
+
 
 function Admin() {
   const { code } = Route.useParams();
