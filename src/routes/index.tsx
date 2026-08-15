@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { GlassCard } from "@/components/GlassCard";
+import { GiftRain } from "@/components/GiftRain";
+import { Countdown } from "@/components/Countdown";
 import { fcfa, WHATSAPP_LINK } from "@/lib/format";
 
 export const Route = createFileRoute("/")({
