@@ -101,11 +101,78 @@ function Admin() {
     },
   });
 
+  const audit = useQuery({
+    queryKey: ["admin-audit", email],
+    enabled: auth,
+    refetchInterval: 20000,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("admin_audit_list", args);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
   const refreshAll = () => {
     deposits.refetch();
     members.refetch();
     stats.refetch();
+    audit.refetch();
   };
+
+  const exportCurrent = (kind: "csv" | "pdf") => {
+    const map: Record<typeof tab, { name: string; rows: Record<string, unknown>[] }> = {
+      depots: {
+        name: "street-shore-depots",
+        rows: (deposits.data ?? []).map((d) => ({
+          date: dt(d.created_at),
+          membre: d.full_name,
+          email: d.email,
+          telephone: d.phone,
+          wave: d.wave_phone,
+          code: d.invite_code,
+          parrain: d.sponsor_code ?? "",
+          montant: d.amount,
+          credite: d.status === "credited" ? d.amount * 4 : 0,
+          statut: d.status,
+          note: d.admin_note,
+          solde: d.balance,
+          bloque: d.blocked ? "oui" : "non",
+        })),
+      },
+      membres: {
+        name: "street-shore-membres",
+        rows: (members.data ?? []).map((m) => ({
+          inscrit: dt(m.created_at),
+          membre: m.full_name,
+          email: m.email,
+          telephone: m.phone,
+          code: m.invite_code,
+          parrain: m.sponsor_code ?? "",
+          solde: m.balance,
+          recharge: m.has_deposited ? "oui" : "non",
+          filleuls: m.referrals,
+          filleuls_actifs: m.active_referrals,
+          bloque: m.blocked ? "oui" : "non",
+        })),
+      },
+      audit: {
+        name: "street-shore-journal-admin",
+        rows: (audit.data ?? []).map((a) => ({
+          date: dt(a.created_at),
+          admin: a.admin_email,
+          action: ACTION_LABEL[a.action] ?? a.action,
+          membre: a.target_name,
+          email: a.target_email,
+          montant: a.amount,
+          note: a.note,
+        })),
+      },
+    };
+    const { name, rows } = map[tab];
+    const ok = kind === "csv" ? downloadCsv(name, rows) : printPdf(name, rows);
+    if (!ok) toast.error("Rien à exporter.");
+  };
+
 
   const review = async (id: string, action: "approve" | "reject" | "reclaim") => {
     const note =
