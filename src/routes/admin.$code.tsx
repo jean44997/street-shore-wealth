@@ -4,10 +4,13 @@ import { useQuery } from "@tanstack/react-query";
 import {
   Ban,
   Check,
+  Download,
   Eye,
+  FileText,
   Loader2,
   LockKeyhole,
   RefreshCw,
+  ScrollText,
   ShieldCheck,
   Undo2,
   Users,
@@ -17,6 +20,7 @@ import {
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { GlassCard } from "@/components/GlassCard";
+import { downloadCsv, printPdf } from "@/lib/csv";
 import { dt, fcfa } from "@/lib/format";
 
 export const Route = createFileRoute("/admin/$code")({
