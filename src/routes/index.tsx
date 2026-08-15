@@ -53,19 +53,34 @@ const steps = [
 
 function Home() {
   return (
-    <div className="min-h-screen">
-      <header className="mx-auto flex max-w-5xl items-center justify-between px-4 py-5">
-        <Logo size={40} priority />
-        <Link
-          to="/auth"
-          search={{ ref: undefined }}
-          className="glass rounded-full px-4 py-2 text-sm font-semibold transition-transform duration-300 hover:scale-[1.03]"
-        >
-          Connexion
-        </Link>
-      </header>
+    <div className="relative min-h-screen overflow-hidden">
+      <GiftRain count={22} />
 
-      <section className="mx-auto max-w-5xl px-4 pt-6 pb-14 text-center">
+      <div className="relative z-10">
+        <header className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-5">
+          <Logo size={40} priority />
+          <div className="flex items-center gap-2">
+            <Link
+              to="/installation"
+              className="glass hidden rounded-full px-4 py-2 text-sm font-semibold sm:inline-flex"
+            >
+              Installer l'app
+            </Link>
+            <Link
+              to="/auth"
+              search={{ ref: undefined }}
+              className="glass rounded-full px-4 py-2 text-sm font-semibold transition-transform duration-300 hover:scale-[1.03]"
+            >
+              Connexion
+            </Link>
+          </div>
+        </header>
+
+        <div className="mx-auto max-w-3xl px-4">
+          <Countdown />
+        </div>
+
+        <section className="mx-auto max-w-5xl px-4 pt-6 pb-14 text-center">
         <div className="rise mx-auto mb-6 flex justify-center">
           <div className="float-slow">
             <Logo size={132} withText={false} priority />
