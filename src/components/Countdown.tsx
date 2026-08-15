@@ -15,9 +15,11 @@ function diff(target: Date) {
 }
 
 export function Countdown({ className, compact = false }: { className?: string; compact?: boolean }) {
-  const [t, setT] = useState(() => diff(EVENT_END));
+  // Valeur neutre au rendu serveur : évite tout écart d'hydratation.
+  const [t, setT] = useState({ d: 0, h: 0, m: 0, s: 0, over: false });
 
   useEffect(() => {
+    setT(diff(EVENT_END));
     const id = setInterval(() => setT(diff(EVENT_END)), 1000);
     return () => clearInterval(id);
   }, []);
