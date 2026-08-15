@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Gift, Loader2, Lock, Mail, Phone, Ticket, User } from "lucide-react";
+import {
+  ArrowLeft,
+  BadgeCheck,
+  Gift,
+  Loader2,
+  Lock,
+  Mail,
+  Phone,
+  ShieldAlert,
+  Ticket,
+  User,
+} from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
