@@ -99,9 +99,9 @@ function Historique() {
             key: `b-${d.id}`,
             date: d.credited_at ?? d.created_at,
             kind: "bonus",
-            label: "Bonus x3 crédité",
+            label: "Dépôt + bonus crédités",
             sub: "Ajouté à votre solde",
-            amount: d.amount * 3,
+            amount: d.amount * 4,
             sign: "+",
             status: "ok",
           });
@@ -113,7 +113,7 @@ function Historique() {
             kind: "bonus",
             label: "Bonus repris",
             sub: d.admin_note || "Vérification anti-fraude",
-            amount: d.amount * 3,
+            amount: d.amount * 4,
             sign: "-",
             status: "ko",
           });
