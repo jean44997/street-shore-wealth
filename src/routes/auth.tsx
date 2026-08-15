@@ -210,14 +210,20 @@ function AuthPage() {
                 value={form.code}
                 onChange={set("code")}
               />
-              {sponsor && (
-                <p className="rise mt-2 text-xs font-semibold text-success">
-                  ✅ Code valide — parrainé par {sponsor}
+              {codeState === "checking" && (
+                <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <Loader2 className="size-3.5 animate-spin" /> Vérification du code…
                 </p>
               )}
-              {!sponsor && form.code.trim().length >= 4 && (
-                <p className="mt-2 text-xs text-muted-foreground">
-                  Ce code n'existe pas encore. Vous pouvez continuer sans code.
+              {codeState === "valid" && sponsor && (
+                <p className="rise mt-2 flex items-center gap-1.5 text-xs font-semibold text-success">
+                  <BadgeCheck className="size-4" /> Code valide — parrainé par {sponsor} 🎉
+                </p>
+              )}
+              {codeState === "invalid" && (
+                <p className="rise mt-2 flex items-center gap-1.5 text-xs font-semibold text-destructive">
+                  <ShieldAlert className="size-4" /> Code introuvable. Format attendu : SS + 6
+                  caractères, ou laissez vide.
                 </p>
               )}
             </div>
