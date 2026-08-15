@@ -52,7 +52,7 @@ function Admin() {
   const [email, setEmail] = useState("");
   const [auth, setAuth] = useState(false);
   const [checking, setChecking] = useState(false);
-  const [tab, setTab] = useState<"depots" | "membres">("depots");
+  const [tab, setTab] = useState<"depots" | "membres" | "audit">("depots");
   const [busy, setBusy] = useState<string | null>(null);
   const [proof, setProof] = useState<string | null>(null);
 
