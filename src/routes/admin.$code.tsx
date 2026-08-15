@@ -249,14 +249,21 @@ function Admin() {
           <p className="mt-1 text-xs text-muted-foreground">
             Accès réservé. Entrez votre e-mail administrateur.
           </p>
+          <label htmlFor="admin-email" className="sr-only">
+            E-mail administrateur
+          </label>
           <input
+            id="admin-email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && enter()}
             type="email"
+            autoComplete="email"
+            aria-label="E-mail administrateur"
             placeholder="email@exemple.com"
-            className="glass mt-4 w-full rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-muted-foreground"
+            className="glass mt-4 w-full rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary"
           />
+
           <button
             onClick={enter}
             disabled={checking}
