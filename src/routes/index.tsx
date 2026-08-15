@@ -23,7 +23,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Street Shore : plateforme d'investissement en Côte d'Ivoire. Rechargez 5 000 F via Wave, recevez 15 000 F, invitez 1 ami et atteignez 20 000 F.",
+          "Street Shore : plateforme d'investissement en Côte d'Ivoire. Rechargez 5 000 F via Wave, votre solde passe à 20 000 F (dépôt + bonus), invitez 1 ami pour débloquer le retrait.",
       },
       { property: "og:title", content: "Street Shore — Investissement Wave" },
       {
@@ -44,7 +44,7 @@ const steps = [
   {
     icon: Clock3,
     title: "2. Patientez 10 minutes",
-    text: "Votre bonus de 15 000 F est crédité automatiquement.",
+    text: "Vos 5 000 F + 15 000 F de bonus = 20 000 F crédités.",
   },
   {
     icon: Users,
@@ -89,7 +89,7 @@ function Home() {
           </div>
         </div>
         <span className="glass rise inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold text-primary">
-          <Sparkles className="size-3.5" /> Bonus x3 sur chaque recharge
+          <Sparkles className="size-3.5" /> Bonus x4 sur chaque recharge
         </span>
         <h1 className="rise mt-5 text-4xl leading-tight font-extrabold sm:text-6xl">
           Rechargez <span className="text-gold">5 000 F</span>
@@ -97,8 +97,8 @@ function Home() {
           recevez <span className="text-gradient">20 000 F</span>
         </h1>
         <p className="rise mx-auto mt-4 max-w-xl text-sm text-muted-foreground sm:text-base">
-          Street Shore transforme votre recharge Wave en solde investisseur. 15 000 F crédités
-          après 10 minutes, + 5 000 F dès qu'un ami rejoint avec votre code.
+          Street Shore transforme votre recharge Wave en solde investisseur. 20 000 F crédités
+          après vérification : vos 5 000 F + 15 000 F de bonus. Invitez 1 ami pour débloquer le retrait.
         </p>
         <div className="rise mt-8 flex flex-wrap justify-center gap-3">
           <Link
@@ -138,7 +138,7 @@ function Home() {
             {[
               ["Dépôt", fcfa(5000)],
               ["Bonus après 10 min", fcfa(15000)],
-              ["Avec 1 ami", fcfa(20000)],
+              ["Crédité sur le solde", fcfa(20000)],
             ].map(([label, value]) => (
               <div key={label} className="glass rounded-2xl p-4">
                 <p className="text-xs text-muted-foreground">{label}</p>

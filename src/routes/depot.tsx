@@ -31,7 +31,7 @@ export const Route = createFileRoute("/depot")({
           "Rechargez votre compte Street Shore via Wave dès 5 000 F, envoyez votre capture de paiement et recevez votre bonus après vérification.",
       },
       { property: "og:title", content: "Dépôt Wave Street Shore" },
-      { property: "og:description", content: "Recharge Wave dès 5 000 F, bonus x3 vérifié." },
+      { property: "og:description", content: "Recharge Wave dès 5 000 F, 20 000 F crédités après vérification." },
     ],
   }),
   component: Depot,

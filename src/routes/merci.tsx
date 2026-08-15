@@ -43,8 +43,8 @@ function Merci() {
       </h1>
       <p className="rise mt-3 text-sm text-muted-foreground">
         Vous avez rejoint Street Shore grâce à {name ?? "un membre"}. Rechargez {fcfa(5000)} pour
-        recevoir vos {fcfa(15000)} et faire bénéficier {name ?? "votre parrain"} de ses{" "}
-        {fcfa(20000)}.
+        recevoir {fcfa(20000)} sur votre solde et débloquer le retrait de{" "}
+        {name ?? "votre parrain"}.
       </p>
 
       <GlassCard strong className="rise mt-8 w-full">

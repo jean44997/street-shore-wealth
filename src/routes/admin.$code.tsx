@@ -4,10 +4,13 @@ import { useQuery } from "@tanstack/react-query";
 import {
   Ban,
   Check,
+  Download,
   Eye,
+  FileText,
   Loader2,
   LockKeyhole,
   RefreshCw,
+  ScrollText,
   ShieldCheck,
   Undo2,
   Users,
@@ -17,6 +20,7 @@ import {
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { GlassCard } from "@/components/GlassCard";
+import { downloadCsv, printPdf } from "@/lib/csv";
 import { dt, fcfa } from "@/lib/format";
 
 export const Route = createFileRoute("/admin/$code")({
@@ -42,13 +46,21 @@ type Stats = {
   rechargers: number;
   blocked: number;
 };
+const ACTION_LABEL: Record<string, string> = {
+  approve: "Dépôt accepté",
+  reject: "Dépôt refusé",
+  reclaim: "Fonds repris",
+  block: "Compte bloqué",
+  unblock: "Compte débloqué",
+};
+
 
 function Admin() {
   const { code } = Route.useParams();
   const [email, setEmail] = useState("");
   const [auth, setAuth] = useState(false);
   const [checking, setChecking] = useState(false);
-  const [tab, setTab] = useState<"depots" | "membres">("depots");
+  const [tab, setTab] = useState<"depots" | "membres" | "audit">("depots");
   const [busy, setBusy] = useState<string | null>(null);
   const [proof, setProof] = useState<string | null>(null);
 
@@ -97,11 +109,78 @@ function Admin() {
     },
   });
 
+  const audit = useQuery({
+    queryKey: ["admin-audit", email],
+    enabled: auth,
+    refetchInterval: 20000,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("admin_audit_list", args);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
   const refreshAll = () => {
     deposits.refetch();
     members.refetch();
     stats.refetch();
+    audit.refetch();
   };
+
+  const exportCurrent = (kind: "csv" | "pdf") => {
+    const map: Record<typeof tab, { name: string; rows: Record<string, unknown>[] }> = {
+      depots: {
+        name: "street-shore-depots",
+        rows: (deposits.data ?? []).map((d) => ({
+          date: dt(d.created_at),
+          membre: d.full_name,
+          email: d.email,
+          telephone: d.phone,
+          wave: d.wave_phone,
+          code: d.invite_code,
+          parrain: d.sponsor_code ?? "",
+          montant: d.amount,
+          credite: d.status === "credited" ? d.amount * 4 : 0,
+          statut: d.status,
+          note: d.admin_note,
+          solde: d.balance,
+          bloque: d.blocked ? "oui" : "non",
+        })),
+      },
+      membres: {
+        name: "street-shore-membres",
+        rows: (members.data ?? []).map((m) => ({
+          inscrit: dt(m.created_at),
+          membre: m.full_name,
+          email: m.email,
+          telephone: m.phone,
+          code: m.invite_code,
+          parrain: m.sponsor_code ?? "",
+          solde: m.balance,
+          recharge: m.has_deposited ? "oui" : "non",
+          filleuls: m.referrals,
+          filleuls_actifs: m.active_referrals,
+          bloque: m.blocked ? "oui" : "non",
+        })),
+      },
+      audit: {
+        name: "street-shore-journal-admin",
+        rows: (audit.data ?? []).map((a) => ({
+          date: dt(a.created_at),
+          admin: a.admin_email,
+          action: ACTION_LABEL[a.action] ?? a.action,
+          membre: a.target_name,
+          email: a.target_email,
+          montant: a.amount,
+          note: a.note,
+        })),
+      },
+    };
+    const { name, rows } = map[tab];
+    const ok = kind === "csv" ? downloadCsv(name, rows) : printPdf(name, rows);
+    if (!ok) toast.error("Rien à exporter.");
+  };
+
 
   const review = async (id: string, action: "approve" | "reject" | "reclaim") => {
     const note =
@@ -170,14 +249,21 @@ function Admin() {
           <p className="mt-1 text-xs text-muted-foreground">
             Accès réservé. Entrez votre e-mail administrateur.
           </p>
+          <label htmlFor="admin-email" className="sr-only">
+            E-mail administrateur
+          </label>
           <input
+            id="admin-email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && enter()}
             type="email"
+            autoComplete="email"
+            aria-label="E-mail administrateur"
             placeholder="email@exemple.com"
-            className="glass mt-4 w-full rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-muted-foreground"
+            className="glass mt-4 w-full rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary"
           />
+
           <button
             onClick={enter}
             disabled={checking}
@@ -235,20 +321,72 @@ function Admin() {
         </GlassCard>
       </div>
 
-      <div className="glass mt-6 inline-flex rounded-full p-1">
-        {(["depots", "membres"] as const).map((t) => (
+      <div className="mt-6 flex flex-wrap items-center gap-3">
+        <div className="glass inline-flex rounded-full p-1" role="tablist" aria-label="Sections de la console">
+          {(
+            [
+              ["depots", "Dépôts", Wallet],
+              ["membres", "Membres", Users],
+              ["audit", "Journal", ScrollText],
+            ] as const
+          ).map(([t, label, Icon]) => (
+            <button
+              key={t}
+              role="tab"
+              aria-selected={tab === t}
+              onClick={() => setTab(t)}
+              className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition-all ${
+                tab === t ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+              }`}
+            >
+              <Icon className="size-4" aria-hidden="true" />
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap gap-2">
           <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition-all ${
-              tab === t ? "bg-primary text-primary-foreground" : "text-muted-foreground"
-            }`}
+            onClick={() => exportCurrent("csv")}
+            className="glass flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold"
           >
-            {t === "depots" ? <Wallet className="size-4" /> : <Users className="size-4" />}
-            {t === "depots" ? "Dépôts" : "Membres"}
+            <Download className="size-4" aria-hidden="true" /> Export CSV
           </button>
-        ))}
+          <button
+            onClick={() => exportCurrent("pdf")}
+            className="glass flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold"
+          >
+            <FileText className="size-4" aria-hidden="true" /> Export PDF
+          </button>
+        </div>
       </div>
+
+      {tab === "audit" && (
+        <div className="mt-4 space-y-2">
+          {(audit.data ?? []).length === 0 && (
+            <GlassCard className="text-sm text-muted-foreground">Aucune action enregistrée.</GlassCard>
+          )}
+          {(audit.data ?? []).map((a) => (
+            <GlassCard key={a.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
+              <div className="min-w-0">
+                <p className="text-sm font-bold">
+                  {ACTION_LABEL[a.action] ?? a.action}
+                  {a.amount ? ` · ${fcfa(a.amount)}` : ""}
+                </p>
+                <p className="truncate text-xs text-muted-foreground">
+                  {a.target_name || "—"} · {a.target_email || "—"}
+                </p>
+                {a.note && <p className="text-xs text-muted-foreground">Note : {a.note}</p>}
+              </div>
+              <div className="text-right text-xs text-muted-foreground">
+                <p className="font-semibold text-foreground">{dt(a.created_at)}</p>
+                <p>par {a.admin_email}</p>
+              </div>
+            </GlassCard>
+          ))}
+        </div>
+      )}
+
 
       {tab === "depots" && (
         <div className="mt-4 space-y-3">

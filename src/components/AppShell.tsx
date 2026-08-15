@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Logo } from "@/components/Logo";
+import { useRealtimeAlerts } from "@/hooks/useRealtimeAlerts";
 
 const nav = [
   { to: "/tableau-de-bord", label: "Solde", icon: Home },
@@ -24,6 +25,7 @@ const nav = [
 
 export function AppShell({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
+  useRealtimeAlerts();
 
   const signOut = async () => {
     await supabase.auth.signOut();

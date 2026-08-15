@@ -37,8 +37,8 @@ function Bienvenue() {
         recevez <span className="text-gradient">20 000 F</span>
       </h1>
       <p className="rise mt-3 text-sm text-muted-foreground">
-        {fcfa(15000)} crédités 10 minutes après votre dépôt Wave, puis {fcfa(5000)} de plus dès
-        qu'un ami s'inscrit avec votre code.
+        {fcfa(20000)} crédités (5 000 F + 15 000 F de bonus) après vérification, puis invitez 1 ami
+        pour débloquer votre retrait.
       </p>
 
       <GlassCard strong className="rise mt-8 w-full text-left">
