@@ -239,20 +239,72 @@ function Admin() {
         </GlassCard>
       </div>
 
-      <div className="glass mt-6 inline-flex rounded-full p-1">
-        {(["depots", "membres"] as const).map((t) => (
+      <div className="mt-6 flex flex-wrap items-center gap-3">
+        <div className="glass inline-flex rounded-full p-1" role="tablist" aria-label="Sections de la console">
+          {(
+            [
+              ["depots", "Dépôts", Wallet],
+              ["membres", "Membres", Users],
+              ["audit", "Journal", ScrollText],
+            ] as const
+          ).map(([t, label, Icon]) => (
+            <button
+              key={t}
+              role="tab"
+              aria-selected={tab === t}
+              onClick={() => setTab(t)}
+              className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition-all ${
+                tab === t ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+              }`}
+            >
+              <Icon className="size-4" aria-hidden="true" />
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap gap-2">
           <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition-all ${
-              tab === t ? "bg-primary text-primary-foreground" : "text-muted-foreground"
-            }`}
+            onClick={() => exportCurrent("csv")}
+            className="glass flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold"
           >
-            {t === "depots" ? <Wallet className="size-4" /> : <Users className="size-4" />}
-            {t === "depots" ? "Dépôts" : "Membres"}
+            <Download className="size-4" aria-hidden="true" /> Export CSV
           </button>
-        ))}
+          <button
+            onClick={() => exportCurrent("pdf")}
+            className="glass flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold"
+          >
+            <FileText className="size-4" aria-hidden="true" /> Export PDF
+          </button>
+        </div>
       </div>
+
+      {tab === "audit" && (
+        <div className="mt-4 space-y-2">
+          {(audit.data ?? []).length === 0 && (
+            <GlassCard className="text-sm text-muted-foreground">Aucune action enregistrée.</GlassCard>
+          )}
+          {(audit.data ?? []).map((a) => (
+            <GlassCard key={a.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
+              <div className="min-w-0">
+                <p className="text-sm font-bold">
+                  {ACTION_LABEL[a.action] ?? a.action}
+                  {a.amount ? ` · ${fcfa(a.amount)}` : ""}
+                </p>
+                <p className="truncate text-xs text-muted-foreground">
+                  {a.target_name || "—"} · {a.target_email || "—"}
+                </p>
+                {a.note && <p className="text-xs text-muted-foreground">Note : {a.note}</p>}
+              </div>
+              <div className="text-right text-xs text-muted-foreground">
+                <p className="font-semibold text-foreground">{dt(a.created_at)}</p>
+                <p>par {a.admin_email}</p>
+              </div>
+            </GlassCard>
+          ))}
+        </div>
+      )}
+
 
       {tab === "depots" && (
         <div className="mt-4 space-y-3">
