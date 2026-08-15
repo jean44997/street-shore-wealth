@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit: {
+        Row: {
+          action: string
+          admin_email: string
+          amount: number
+          created_at: string
+          deposit_id: string | null
+          id: string
+          note: string
+          target_email: string
+          target_name: string
+          target_profile_id: string | null
+        }
+        Insert: {
+          action: string
+          admin_email: string
+          amount?: number
+          created_at?: string
+          deposit_id?: string | null
+          id?: string
+          note?: string
+          target_email?: string
+          target_name?: string
+          target_profile_id?: string | null
+        }
+        Update: {
+          action?: string
+          admin_email?: string
+          amount?: number
+          created_at?: string
+          deposit_id?: string | null
+          id?: string
+          note?: string
+          target_email?: string
+          target_name?: string
+          target_profile_id?: string | null
+        }
+        Relationships: []
+      }
       admin_emails: {
         Row: {
           created_at: string
@@ -192,6 +231,27 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_audit_list: {
+        Args: { p_code: string; p_email: string }
+        Returns: {
+          action: string
+          admin_email: string
+          amount: number
+          created_at: string
+          deposit_id: string | null
+          id: string
+          note: string
+          target_email: string
+          target_name: string
+          target_profile_id: string | null
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "admin_audit"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       admin_deposits: {
         Args: { p_code: string; p_email: string }
         Returns: {
