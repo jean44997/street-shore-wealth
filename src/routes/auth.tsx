@@ -88,7 +88,17 @@ function AuthPage() {
   const handleSignup = async () => {
     const parsed = signupSchema.safeParse(form);
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0]?.message ?? "Formulaire incomplet");
+      toast.error(parsed.error.issues[0]?.message ?? "Formulaire incomplet", { icon: "⚠️" });
+      return;
+    }
+    if (codeState === "checking") {
+      toast.info("Vérification du code d'invitation en cours…");
+      return;
+    }
+    if (codeState === "invalid") {
+      toast.error("Ce code d'invitation n'existe pas. Corrigez-le ou laissez le champ vide.", {
+        icon: "🎟️",
+      });
       return;
     }
     setLoading(true);
