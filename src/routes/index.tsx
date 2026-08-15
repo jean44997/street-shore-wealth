@@ -176,7 +176,8 @@ function Home() {
         >
           Support WhatsApp
         </a>
-      </footer>
+        </footer>
+      </div>
     </div>
   );
 }
