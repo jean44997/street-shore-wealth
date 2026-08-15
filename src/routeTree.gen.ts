@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BienvenueRouteImport } from './routes/bienvenue'
 import { Route as DepotRouteImport } from './routes/depot'
 import { Route as HistoriqueRouteImport } from './routes/historique'
+import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as MerciRouteImport } from './routes/merci'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as RetraitRouteImport } from './routes/retrait'
@@ -50,6 +51,11 @@ const DepotRoute = DepotRouteImport.update({
 const HistoriqueRoute = HistoriqueRouteImport.update({
   id: '/historique',
   path: '/historique',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstallationRoute = InstallationRouteImport.update({
+  id: '/installation',
+  path: '/installation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MerciRoute = MerciRouteImport.update({
@@ -90,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/bienvenue': typeof BienvenueRoute
   '/depot': typeof DepotRoute
   '/historique': typeof HistoriqueRoute
+  '/installation': typeof InstallationRoute
   '/merci': typeof MerciRoute
   '/notifications': typeof NotificationsRoute
   '/retrait': typeof RetraitRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/bienvenue': typeof BienvenueRoute
   '/depot': typeof DepotRoute
   '/historique': typeof HistoriqueRoute
+  '/installation': typeof InstallationRoute
   '/merci': typeof MerciRoute
   '/notifications': typeof NotificationsRoute
   '/retrait': typeof RetraitRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/bienvenue': typeof BienvenueRoute
   '/depot': typeof DepotRoute
   '/historique': typeof HistoriqueRoute
+  '/installation': typeof InstallationRoute
   '/merci': typeof MerciRoute
   '/notifications': typeof NotificationsRoute
   '/retrait': typeof RetraitRoute
@@ -135,6 +144,7 @@ export interface FileRouteTypes {
     | '/bienvenue'
     | '/depot'
     | '/historique'
+    | '/installation'
     | '/merci'
     | '/notifications'
     | '/retrait'
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/bienvenue'
     | '/depot'
     | '/historique'
+    | '/installation'
     | '/merci'
     | '/notifications'
     | '/retrait'
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/bienvenue'
     | '/depot'
     | '/historique'
+    | '/installation'
     | '/merci'
     | '/notifications'
     | '/retrait'
@@ -178,6 +190,7 @@ export interface RootRouteChildren {
   BienvenueRoute: typeof BienvenueRoute
   DepotRoute: typeof DepotRoute
   HistoriqueRoute: typeof HistoriqueRoute
+  InstallationRoute: typeof InstallationRoute
   MerciRoute: typeof MerciRoute
   NotificationsRoute: typeof NotificationsRoute
   RetraitRoute: typeof RetraitRoute
@@ -228,6 +241,13 @@ declare module '@tanstack/react-router' {
       path: '/historique'
       fullPath: '/historique'
       preLoaderRoute: typeof HistoriqueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/installation': {
+      id: '/installation'
+      path: '/installation'
+      fullPath: '/installation'
+      preLoaderRoute: typeof InstallationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/merci': {
@@ -282,6 +302,7 @@ const rootRouteChildren: RootRouteChildren = {
   BienvenueRoute: BienvenueRoute,
   DepotRoute: DepotRoute,
   HistoriqueRoute: HistoriqueRoute,
+  InstallationRoute: InstallationRoute,
   MerciRoute: MerciRoute,
   NotificationsRoute: NotificationsRoute,
   RetraitRoute: RetraitRoute,
