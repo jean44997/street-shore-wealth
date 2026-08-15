@@ -175,3 +175,92 @@
 @utility rise {
   animation: ss-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+
+/* --- Cadeaux, confettis & effets 3D --- */
+
+@keyframes ss-gift-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-32px, 112vh, 0) rotateX(540deg) rotateY(360deg) rotateZ(220deg);
+    opacity: 0;
+  }
+}
+
+@utility gift-fall {
+  animation-name: ss-gift-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes ss-pop3d {
+  0% {
+    opacity: 0;
+    transform: perspective(900px) rotateX(24deg) translateY(28px) scale(0.92);
+  }
+  60% {
+    opacity: 1;
+    transform: perspective(900px) rotateX(-6deg) translateY(-4px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(900px) rotateX(0deg) translateY(0) scale(1);
+  }
+}
+
+@utility pop-3d {
+  animation: ss-pop3d 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes ss-tilt {
+  0%,
+  100% {
+    transform: perspective(900px) rotateX(3deg) rotateY(-4deg) translateY(0);
+  }
+  50% {
+    transform: perspective(900px) rotateX(-3deg) rotateY(4deg) translateY(-8px);
+  }
+}
+
+@utility tilt-3d {
+  animation: ss-tilt 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes ss-pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--gold) 45%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 18px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+@utility pulse-ring {
+  animation: ss-pulse-ring 2.2s ease-out infinite;
+}
+
+@utility safe-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gift-fall,
+  .tilt-3d,
+  .float-slow,
+  .pulse-ring,
+  .shimmer {
+    animation: none !important;
+  }
+}
