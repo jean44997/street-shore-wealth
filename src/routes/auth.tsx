@@ -132,6 +132,7 @@ function AuthPage() {
       p_ref_code: parsed.data.code ?? "",
     });
     setLoading(false);
+    toast.success("Bienvenue sur Street Shore 🌊 Votre compte est prêt !", { icon: "🎁" });
     const code = (parsed.data.code ?? "").trim();
     if (code && sponsor) {
       navigate({ to: "/merci", search: { code, name: sponsor } });
