@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Gift, Loader2, Lock, Mail, Phone, Ticket, User } from "lucide-react";
+import {
+  ArrowLeft,
+  BadgeCheck,
+  Gift,
+  Loader2,
+  Lock,
+  Mail,
+  Phone,
+  ShieldAlert,
+  Ticket,
+  User,
+} from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -52,19 +63,33 @@ function AuthPage() {
     code: ref ?? "",
   });
   const [sponsor, setSponsor] = useState<string | null>(null);
+  const [codeState, setCodeState] = useState<"empty" | "checking" | "valid" | "invalid">("empty");
 
   useEffect(() => {
     const code = form.code.trim().toUpperCase();
-    if (code.length < 4) {
+    if (code.length === 0) {
       setSponsor(null);
+      setCodeState("empty");
+      return;
+    }
+    if (!/^SS[A-Z0-9]{6}$/.test(code)) {
+      setSponsor(null);
+      setCodeState("invalid");
       return;
     }
     let active = true;
-    supabase.rpc("referrer_name", { p_code: code }).then(({ data }) => {
-      if (active) setSponsor((data as string | null) ?? null);
-    });
+    setCodeState("checking");
+    const t = setTimeout(() => {
+      supabase.rpc("referrer_name", { p_code: code }).then(({ data }) => {
+        if (!active) return;
+        const name = (data as string | null) ?? null;
+        setSponsor(name);
+        setCodeState(name ? "valid" : "invalid");
+      });
+    }, 350);
     return () => {
       active = false;
+      clearTimeout(t);
     };
   }, [form.code]);
 
@@ -74,7 +99,17 @@ function AuthPage() {
   const handleSignup = async () => {
     const parsed = signupSchema.safeParse(form);
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0]?.message ?? "Formulaire incomplet");
+      toast.error(parsed.error.issues[0]?.message ?? "Formulaire incomplet", { icon: "⚠️" });
+      return;
+    }
+    if (codeState === "checking") {
+      toast.info("Vérification du code d'invitation en cours…");
+      return;
+    }
+    if (codeState === "invalid") {
+      toast.error("Ce code d'invitation n'existe pas. Corrigez-le ou laissez le champ vide.", {
+        icon: "🎟️",
+      });
       return;
     }
     setLoading(true);
@@ -108,6 +143,7 @@ function AuthPage() {
       p_ref_code: parsed.data.code ?? "",
     });
     setLoading(false);
+    toast.success("Bienvenue sur Street Shore 🌊 Votre compte est prêt !", { icon: "🎁" });
     const code = (parsed.data.code ?? "").trim();
     if (code && sponsor) {
       navigate({ to: "/merci", search: { code, name: sponsor } });
@@ -185,14 +221,20 @@ function AuthPage() {
                 value={form.code}
                 onChange={set("code")}
               />
-              {sponsor && (
-                <p className="rise mt-2 text-xs font-semibold text-success">
-                  ✅ Code valide — parrainé par {sponsor}
+              {codeState === "checking" && (
+                <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <Loader2 className="size-3.5 animate-spin" /> Vérification du code…
                 </p>
               )}
-              {!sponsor && form.code.trim().length >= 4 && (
-                <p className="mt-2 text-xs text-muted-foreground">
-                  Ce code n'existe pas encore. Vous pouvez continuer sans code.
+              {codeState === "valid" && sponsor && (
+                <p className="rise mt-2 flex items-center gap-1.5 text-xs font-semibold text-success">
+                  <BadgeCheck className="size-4" /> Code valide — parrainé par {sponsor} 🎉
+                </p>
+              )}
+              {codeState === "invalid" && (
+                <p className="rise mt-2 flex items-center gap-1.5 text-xs font-semibold text-destructive">
+                  <ShieldAlert className="size-4" /> Code introuvable. Format attendu : SS + 6
+                  caractères, ou laissez vide.
                 </p>
               )}
             </div>

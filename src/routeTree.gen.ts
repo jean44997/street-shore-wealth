@@ -14,11 +14,14 @@ import { Route as AmisRouteImport } from './routes/amis'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BienvenueRouteImport } from './routes/bienvenue'
 import { Route as DepotRouteImport } from './routes/depot'
+import { Route as HistoriqueRouteImport } from './routes/historique'
+import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as MerciRouteImport } from './routes/merci'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as RetraitRouteImport } from './routes/retrait'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as TableauDeBordRouteImport } from './routes/tableau-de-bord'
+import { Route as AdminCodeRouteImport } from './routes/admin.$code'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -43,6 +46,16 @@ const BienvenueRoute = BienvenueRouteImport.update({
 const DepotRoute = DepotRouteImport.update({
   id: '/depot',
   path: '/depot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistoriqueRoute = HistoriqueRouteImport.update({
+  id: '/historique',
+  path: '/historique',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstallationRoute = InstallationRouteImport.update({
+  id: '/installation',
+  path: '/installation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MerciRoute = MerciRouteImport.update({
@@ -70,6 +83,11 @@ const TableauDeBordRoute = TableauDeBordRouteImport.update({
   path: '/tableau-de-bord',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCodeRoute = AdminCodeRouteImport.update({
+  id: '/admin/$code',
+  path: '/admin/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -77,11 +95,14 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
   '/depot': typeof DepotRoute
+  '/historique': typeof HistoriqueRoute
+  '/installation': typeof InstallationRoute
   '/merci': typeof MerciRoute
   '/notifications': typeof NotificationsRoute
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
+  '/admin/$code': typeof AdminCodeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -89,11 +110,14 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
   '/depot': typeof DepotRoute
+  '/historique': typeof HistoriqueRoute
+  '/installation': typeof InstallationRoute
   '/merci': typeof MerciRoute
   '/notifications': typeof NotificationsRoute
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
+  '/admin/$code': typeof AdminCodeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -102,11 +126,14 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
   '/depot': typeof DepotRoute
+  '/historique': typeof HistoriqueRoute
+  '/installation': typeof InstallationRoute
   '/merci': typeof MerciRoute
   '/notifications': typeof NotificationsRoute
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
+  '/admin/$code': typeof AdminCodeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -116,11 +143,14 @@ export interface FileRouteTypes {
     | '/auth'
     | '/bienvenue'
     | '/depot'
+    | '/historique'
+    | '/installation'
     | '/merci'
     | '/notifications'
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
+    | '/admin/$code'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -128,11 +158,14 @@ export interface FileRouteTypes {
     | '/auth'
     | '/bienvenue'
     | '/depot'
+    | '/historique'
+    | '/installation'
     | '/merci'
     | '/notifications'
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
+    | '/admin/$code'
   id:
     | '__root__'
     | '/'
@@ -140,11 +173,14 @@ export interface FileRouteTypes {
     | '/auth'
     | '/bienvenue'
     | '/depot'
+    | '/historique'
+    | '/installation'
     | '/merci'
     | '/notifications'
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
+    | '/admin/$code'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -153,11 +189,14 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BienvenueRoute: typeof BienvenueRoute
   DepotRoute: typeof DepotRoute
+  HistoriqueRoute: typeof HistoriqueRoute
+  InstallationRoute: typeof InstallationRoute
   MerciRoute: typeof MerciRoute
   NotificationsRoute: typeof NotificationsRoute
   RetraitRoute: typeof RetraitRoute
   SupportRoute: typeof SupportRoute
   TableauDeBordRoute: typeof TableauDeBordRoute
+  AdminCodeRoute: typeof AdminCodeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -197,6 +236,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DepotRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/historique': {
+      id: '/historique'
+      path: '/historique'
+      fullPath: '/historique'
+      preLoaderRoute: typeof HistoriqueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/installation': {
+      id: '/installation'
+      path: '/installation'
+      fullPath: '/installation'
+      preLoaderRoute: typeof InstallationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/merci': {
       id: '/merci'
       path: '/merci'
@@ -232,6 +285,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TableauDeBordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/$code': {
+      id: '/admin/$code'
+      path: '/admin/$code'
+      fullPath: '/admin/$code'
+      preLoaderRoute: typeof AdminCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -241,11 +301,14 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BienvenueRoute: BienvenueRoute,
   DepotRoute: DepotRoute,
+  HistoriqueRoute: HistoriqueRoute,
+  InstallationRoute: InstallationRoute,
   MerciRoute: MerciRoute,
   NotificationsRoute: NotificationsRoute,
   RetraitRoute: RetraitRoute,
   SupportRoute: SupportRoute,
   TableauDeBordRoute: TableauDeBordRoute,
+  AdminCodeRoute: AdminCodeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

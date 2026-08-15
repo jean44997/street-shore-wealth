@@ -10,6 +10,7 @@ export type Profile = {
   invite_code: string;
   referred_by: string | null;
   has_deposited: boolean;
+  blocked: boolean;
   created_at: string;
 };
 

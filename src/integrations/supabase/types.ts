@@ -14,30 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_emails: {
+        Row: {
+          created_at: string
+          email: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+        }
+        Relationships: []
+      }
+      app_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       deposits: {
         Row: {
+          admin_note: string
           amount: number
           created_at: string
           credited_at: string | null
           id: string
+          proof_url: string | null
+          reviewed_at: string | null
           status: string
           user_id: string
+          wave_phone: string
         }
         Insert: {
+          admin_note?: string
           amount: number
           created_at?: string
           credited_at?: string | null
           id?: string
+          proof_url?: string | null
+          reviewed_at?: string | null
           status?: string
           user_id: string
+          wave_phone?: string
         }
         Update: {
+          admin_note?: string
           amount?: number
           created_at?: string
           credited_at?: string | null
           id?: string
+          proof_url?: string | null
+          reviewed_at?: string | null
           status?: string
           user_id?: string
+          wave_phone?: string
         }
         Relationships: []
       }
@@ -71,6 +116,7 @@ export type Database = {
       profiles: {
         Row: {
           balance: number
+          blocked: boolean
           created_at: string
           full_name: string
           has_deposited: boolean
@@ -82,6 +128,7 @@ export type Database = {
         }
         Insert: {
           balance?: number
+          blocked?: boolean
           created_at?: string
           full_name?: string
           has_deposited?: boolean
@@ -93,6 +140,7 @@ export type Database = {
         }
         Update: {
           balance?: number
+          blocked?: boolean
           created_at?: string
           full_name?: string
           has_deposited?: boolean
@@ -144,10 +192,74 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_deposits: {
+        Args: { p_code: string; p_email: string }
+        Returns: {
+          admin_note: string
+          amount: number
+          balance: number
+          blocked: boolean
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          invite_code: string
+          phone: string
+          profile_id: string
+          proof_url: string
+          reviewed_at: string
+          sponsor_code: string
+          status: string
+          wave_phone: string
+        }[]
+      }
+      admin_gate: {
+        Args: { p_code: string; p_email: string }
+        Returns: boolean
+      }
+      admin_members: {
+        Args: { p_code: string; p_email: string }
+        Returns: {
+          active_referrals: number
+          balance: number
+          blocked: boolean
+          created_at: string
+          email: string
+          full_name: string
+          has_deposited: boolean
+          invite_code: string
+          phone: string
+          profile_id: string
+          referrals: number
+          sponsor_code: string
+        }[]
+      }
+      admin_review_deposit: {
+        Args: {
+          p_action: string
+          p_code: string
+          p_email: string
+          p_id: string
+          p_note?: string
+        }
+        Returns: undefined
+      }
+      admin_set_blocked: {
+        Args: {
+          p_blocked: boolean
+          p_code: string
+          p_email: string
+          p_profile_id: string
+        }
+        Returns: undefined
+      }
+      admin_stats: { Args: { p_code: string; p_email: string }; Returns: Json }
+      can_withdraw: { Args: never; Returns: boolean }
       ensure_profile: {
         Args: { p_name: string; p_phone: string; p_ref_code: string }
         Returns: {
           balance: number
+          blocked: boolean
           created_at: string
           full_name: string
           has_deposited: boolean
@@ -164,6 +276,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      is_admin: { Args: never; Returns: boolean }
       my_referrals: {
         Args: never
         Returns: {
@@ -194,12 +307,37 @@ export type Database = {
       submit_deposit: {
         Args: { p_amount: number }
         Returns: {
+          admin_note: string
           amount: number
           created_at: string
           credited_at: string | null
           id: string
+          proof_url: string | null
+          reviewed_at: string | null
           status: string
           user_id: string
+          wave_phone: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "deposits"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      submit_deposit_proof: {
+        Args: { p_amount: number; p_phone: string; p_proof_url: string }
+        Returns: {
+          admin_note: string
+          amount: number
+          created_at: string
+          credited_at: string | null
+          id: string
+          proof_url: string | null
+          reviewed_at: string | null
+          status: string
+          user_id: string
+          wave_phone: string
         }
         SetofOptions: {
           from: "*"
