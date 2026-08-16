@@ -125,6 +125,53 @@ export type Database = {
         }
         Relationships: []
       }
+      investments: {
+        Row: {
+          active: boolean
+          created_at: string
+          daily_income: number
+          days: number
+          days_claimed: number
+          id: string
+          last_claim_at: string
+          plan_id: number
+          price: number
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          daily_income: number
+          days: number
+          days_claimed?: number
+          id?: string
+          last_claim_at?: string
+          plan_id: number
+          price: number
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          daily_income?: number
+          days?: number
+          days_claimed?: number
+          id?: string
+          last_claim_at?: string
+          plan_id?: number
+          price?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "investments_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "vip_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
           body: string
@@ -164,6 +211,8 @@ export type Database = {
           phone: string
           referred_by: string | null
           user_id: string
+          withdraw_no_referral: boolean
+          withdraw_unlocked: boolean
         }
         Insert: {
           balance?: number
@@ -176,6 +225,8 @@ export type Database = {
           phone?: string
           referred_by?: string | null
           user_id: string
+          withdraw_no_referral?: boolean
+          withdraw_unlocked?: boolean
         }
         Update: {
           balance?: number
@@ -188,6 +239,8 @@ export type Database = {
           phone?: string
           referred_by?: string | null
           user_id?: string
+          withdraw_no_referral?: boolean
+          withdraw_unlocked?: boolean
         }
         Relationships: [
           {
@@ -198,6 +251,63 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      scratch_cards: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          prize: string | null
+          scratched_at: string | null
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          id?: string
+          prize?: string | null
+          scratched_at?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          prize?: string | null
+          scratched_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vip_plans: {
+        Row: {
+          created_at: string
+          daily_income: number
+          days: number
+          id: number
+          name: string
+          price: number
+          tier: string
+        }
+        Insert: {
+          created_at?: string
+          daily_income: number
+          days?: number
+          id: number
+          name: string
+          price: number
+          tier: string
+        }
+        Update: {
+          created_at?: string
+          daily_income?: number
+          days?: number
+          id?: number
+          name?: string
+          price?: number
+          tier?: string
+        }
+        Relationships: []
       }
       withdrawals: {
         Row: {
@@ -314,7 +424,29 @@ export type Database = {
         Returns: undefined
       }
       admin_stats: { Args: { p_code: string; p_email: string }; Returns: Json }
+      buy_vip: {
+        Args: { p_plan_id: number }
+        Returns: {
+          active: boolean
+          created_at: string
+          daily_income: number
+          days: number
+          days_claimed: number
+          id: string
+          last_claim_at: string
+          plan_id: number
+          price: number
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "investments"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       can_withdraw: { Args: never; Returns: boolean }
+      claim_vip_income: { Args: never; Returns: number }
       ensure_profile: {
         Args: { p_name: string; p_phone: string; p_ref_code: string }
         Returns: {
@@ -328,6 +460,8 @@ export type Database = {
           phone: string
           referred_by: string | null
           user_id: string
+          withdraw_no_referral: boolean
+          withdraw_unlocked: boolean
         }
         SetofOptions: {
           from: "*"
@@ -345,6 +479,23 @@ export type Database = {
           has_deposited: boolean
         }[]
       }
+      my_scratch_card: {
+        Args: never
+        Returns: {
+          amount: number
+          created_at: string
+          id: string
+          prize: string | null
+          scratched_at: string | null
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "scratch_cards"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       process_my_deposits: { Args: never; Returns: undefined }
       referrer_name: { Args: { p_code: string }; Returns: string }
       request_withdrawal: {
@@ -360,6 +511,23 @@ export type Database = {
         SetofOptions: {
           from: "*"
           to: "withdrawals"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      scratch_card: {
+        Args: { p_id: string }
+        Returns: {
+          amount: number
+          created_at: string
+          id: string
+          prize: string | null
+          scratched_at: string | null
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "scratch_cards"
           isOneToOne: true
           isSetofReturn: false
         }
