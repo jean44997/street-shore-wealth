@@ -3,8 +3,10 @@ export const fcfa = (n: number) =>
 
 export const WAVE_LINK = "https://pay.wave.com/m/M_ci_kUJh8VN9_vsB/c/ci/";
 export const WHATSAPP_LINK = "https://wa.me/message/UCSMKJU5WSJWB1";
-export const DEPOSIT_MIN = 5000;
-export const WITHDRAW_MIN = 20000;
+export const DEPOSIT_MIN = 3000;
+export const WITHDRAW_MIN = 2000;
+/** Une nouvelle carte cadeau à gratter tous les 2 jours. */
+export const SCRATCH_INTERVAL_DAYS = 2;
 
 /** Fin de l'opération cadeaux Street Shore : 1 mois et 7 jours. */
 export const EVENT_END = new Date("2026-09-22T00:00:00Z");
