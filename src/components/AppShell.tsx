@@ -3,6 +3,8 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import {
   ArrowDownToLine,
   Bell,
+  Crown,
+  Gift,
   History,
   Home,
   LifeBuoy,
@@ -15,13 +17,16 @@ import { Logo } from "@/components/Logo";
 import { useRealtimeAlerts } from "@/hooks/useRealtimeAlerts";
 
 const nav = [
-  { to: "/tableau-de-bord", label: "Solde", icon: Home },
-  { to: "/depot", label: "Dépôt", icon: Wallet },
-  { to: "/retrait", label: "Retrait", icon: ArrowDownToLine },
-  { to: "/amis", label: "Amis", icon: Users },
-  { to: "/historique", label: "Historique", icon: History },
-  { to: "/notifications", label: "Alertes", icon: Bell },
+  { to: "/tableau-de-bord", label: "Solde", icon: Home, primary: true },
+  { to: "/depot", label: "Dépôt", icon: Wallet, primary: true },
+  { to: "/vip", label: "VIP", icon: Crown, primary: true },
+  { to: "/carte-cadeau", label: "Cadeau", icon: Gift, primary: true },
+  { to: "/retrait", label: "Retrait", icon: ArrowDownToLine, primary: true },
+  { to: "/amis", label: "Amis", icon: Users, primary: true },
+  { to: "/historique", label: "Historique", icon: History, primary: false },
+  { to: "/notifications", label: "Alertes", icon: Bell, primary: false },
 ] as const;
+
 
 export function AppShell({ children }: { children: ReactNode }) {
   const navigate = useNavigate();

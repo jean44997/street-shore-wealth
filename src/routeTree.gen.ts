@@ -22,6 +22,7 @@ import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as RetraitRouteImport } from './routes/retrait'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as TableauDeBordRouteImport } from './routes/tableau-de-bord'
+import { Route as VipRouteImport } from './routes/vip'
 import { Route as AdminCodeRouteImport } from './routes/admin.$code'
 
 const IndexRoute = IndexRouteImport.update({
@@ -89,6 +90,11 @@ const TableauDeBordRoute = TableauDeBordRouteImport.update({
   path: '/tableau-de-bord',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VipRoute = VipRouteImport.update({
+  id: '/vip',
+  path: '/vip',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminCodeRoute = AdminCodeRouteImport.update({
   id: '/admin/$code',
   path: '/admin/$code',
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
+  '/vip': typeof VipRoute
   '/admin/$code': typeof AdminCodeRoute
 }
 export interface FileRoutesByTo {
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
+  '/vip': typeof VipRoute
   '/admin/$code': typeof AdminCodeRoute
 }
 export interface FileRoutesById {
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
+  '/vip': typeof VipRoute
   '/admin/$code': typeof AdminCodeRoute
 }
 export interface FileRouteTypes {
@@ -160,6 +169,7 @@ export interface FileRouteTypes {
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
+    | '/vip'
     | '/admin/$code'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -176,6 +186,7 @@ export interface FileRouteTypes {
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
+    | '/vip'
     | '/admin/$code'
   id:
     | '__root__'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
+    | '/vip'
     | '/admin/$code'
   fileRoutesById: FileRoutesById
 }
@@ -209,6 +221,7 @@ export interface RootRouteChildren {
   RetraitRoute: typeof RetraitRoute
   SupportRoute: typeof SupportRoute
   TableauDeBordRoute: typeof TableauDeBordRoute
+  VipRoute: typeof VipRoute
   AdminCodeRoute: typeof AdminCodeRoute
 }
 
@@ -305,6 +318,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TableauDeBordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/vip': {
+      id: '/vip'
+      path: '/vip'
+      fullPath: '/vip'
+      preLoaderRoute: typeof VipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/$code': {
       id: '/admin/$code'
       path: '/admin/$code'
@@ -329,6 +349,7 @@ const rootRouteChildren: RootRouteChildren = {
   RetraitRoute: RetraitRoute,
   SupportRoute: SupportRoute,
   TableauDeBordRoute: TableauDeBordRoute,
+  VipRoute: VipRoute,
   AdminCodeRoute: AdminCodeRoute,
 }
 export const routeTree = rootRouteImport
