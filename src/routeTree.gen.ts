@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AmisRouteImport } from './routes/amis'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BienvenueRouteImport } from './routes/bienvenue'
+import { Route as CarteCadeauRouteImport } from './routes/carte-cadeau'
 import { Route as DepotRouteImport } from './routes/depot'
 import { Route as HistoriqueRouteImport } from './routes/historique'
 import { Route as InstallationRouteImport } from './routes/installation'
@@ -41,6 +42,11 @@ const AuthRoute = AuthRouteImport.update({
 const BienvenueRoute = BienvenueRouteImport.update({
   id: '/bienvenue',
   path: '/bienvenue',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CarteCadeauRoute = CarteCadeauRouteImport.update({
+  id: '/carte-cadeau',
+  path: '/carte-cadeau',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DepotRoute = DepotRouteImport.update({
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/amis': typeof AmisRoute
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
+  '/carte-cadeau': typeof CarteCadeauRoute
   '/depot': typeof DepotRoute
   '/historique': typeof HistoriqueRoute
   '/installation': typeof InstallationRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByTo {
   '/amis': typeof AmisRoute
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
+  '/carte-cadeau': typeof CarteCadeauRoute
   '/depot': typeof DepotRoute
   '/historique': typeof HistoriqueRoute
   '/installation': typeof InstallationRoute
@@ -125,6 +133,7 @@ export interface FileRoutesById {
   '/amis': typeof AmisRoute
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
+  '/carte-cadeau': typeof CarteCadeauRoute
   '/depot': typeof DepotRoute
   '/historique': typeof HistoriqueRoute
   '/installation': typeof InstallationRoute
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
     | '/amis'
     | '/auth'
     | '/bienvenue'
+    | '/carte-cadeau'
     | '/depot'
     | '/historique'
     | '/installation'
@@ -157,6 +167,7 @@ export interface FileRouteTypes {
     | '/amis'
     | '/auth'
     | '/bienvenue'
+    | '/carte-cadeau'
     | '/depot'
     | '/historique'
     | '/installation'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/amis'
     | '/auth'
     | '/bienvenue'
+    | '/carte-cadeau'
     | '/depot'
     | '/historique'
     | '/installation'
@@ -188,6 +200,7 @@ export interface RootRouteChildren {
   AmisRoute: typeof AmisRoute
   AuthRoute: typeof AuthRoute
   BienvenueRoute: typeof BienvenueRoute
+  CarteCadeauRoute: typeof CarteCadeauRoute
   DepotRoute: typeof DepotRoute
   HistoriqueRoute: typeof HistoriqueRoute
   InstallationRoute: typeof InstallationRoute
@@ -227,6 +240,13 @@ declare module '@tanstack/react-router' {
       path: '/bienvenue'
       fullPath: '/bienvenue'
       preLoaderRoute: typeof BienvenueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/carte-cadeau': {
+      id: '/carte-cadeau'
+      path: '/carte-cadeau'
+      fullPath: '/carte-cadeau'
+      preLoaderRoute: typeof CarteCadeauRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/depot': {
@@ -300,6 +320,7 @@ const rootRouteChildren: RootRouteChildren = {
   AmisRoute: AmisRoute,
   AuthRoute: AuthRoute,
   BienvenueRoute: BienvenueRoute,
+  CarteCadeauRoute: CarteCadeauRoute,
   DepotRoute: DepotRoute,
   HistoriqueRoute: HistoriqueRoute,
   InstallationRoute: InstallationRoute,
