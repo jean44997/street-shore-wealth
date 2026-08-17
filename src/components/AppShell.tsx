@@ -61,6 +61,22 @@ export function AppShell({ children }: { children: ReactNode }) {
 
           <div className="ml-auto flex items-center gap-2 md:ml-0">
             <Link
+              to="/historique"
+              aria-label="Historique"
+              activeProps={{ className: "text-primary" }}
+              className="glass rounded-full p-2.5 text-muted-foreground transition-colors hover:text-foreground md:hidden"
+            >
+              <History className="size-4" />
+            </Link>
+            <Link
+              to="/notifications"
+              aria-label="Alertes"
+              activeProps={{ className: "text-primary" }}
+              className="glass rounded-full p-2.5 text-muted-foreground transition-colors hover:text-foreground md:hidden"
+            >
+              <Bell className="size-4" />
+            </Link>
+            <Link
               to="/support"
               aria-label="Service client"
               className="glass rounded-full p-2.5 text-muted-foreground transition-colors hover:text-foreground"
