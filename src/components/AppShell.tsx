@@ -84,7 +84,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-40 px-2 md:hidden">
         <div className="glass-strong mx-auto flex w-full max-w-lg items-stretch justify-between gap-0.5 rounded-3xl px-1.5 py-1.5">
-          {nav.map(({ to, label, icon: Icon }) => (
+          {nav.filter((n) => n.primary).map(({ to, label, icon: Icon }) => (
             <Link
               key={to}
               to={to}
