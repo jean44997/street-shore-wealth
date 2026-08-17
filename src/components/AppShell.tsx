@@ -3,6 +3,8 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import {
   ArrowDownToLine,
   Bell,
+  Crown,
+  Gift,
   History,
   Home,
   LifeBuoy,
@@ -15,13 +17,16 @@ import { Logo } from "@/components/Logo";
 import { useRealtimeAlerts } from "@/hooks/useRealtimeAlerts";
 
 const nav = [
-  { to: "/tableau-de-bord", label: "Solde", icon: Home },
-  { to: "/depot", label: "Dépôt", icon: Wallet },
-  { to: "/retrait", label: "Retrait", icon: ArrowDownToLine },
-  { to: "/amis", label: "Amis", icon: Users },
-  { to: "/historique", label: "Historique", icon: History },
-  { to: "/notifications", label: "Alertes", icon: Bell },
+  { to: "/tableau-de-bord", label: "Solde", icon: Home, primary: true },
+  { to: "/depot", label: "Dépôt", icon: Wallet, primary: true },
+  { to: "/vip", label: "VIP", icon: Crown, primary: true },
+  { to: "/carte-cadeau", label: "Cadeau", icon: Gift, primary: true },
+  { to: "/retrait", label: "Retrait", icon: ArrowDownToLine, primary: true },
+  { to: "/amis", label: "Amis", icon: Users, primary: true },
+  { to: "/historique", label: "Historique", icon: History, primary: false },
+  { to: "/notifications", label: "Alertes", icon: Bell, primary: false },
 ] as const;
+
 
 export function AppShell({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
@@ -56,6 +61,22 @@ export function AppShell({ children }: { children: ReactNode }) {
 
           <div className="ml-auto flex items-center gap-2 md:ml-0">
             <Link
+              to="/historique"
+              aria-label="Historique"
+              activeProps={{ className: "text-primary" }}
+              className="glass rounded-full p-2.5 text-muted-foreground transition-colors hover:text-foreground md:hidden"
+            >
+              <History className="size-4" />
+            </Link>
+            <Link
+              to="/notifications"
+              aria-label="Alertes"
+              activeProps={{ className: "text-primary" }}
+              className="glass rounded-full p-2.5 text-muted-foreground transition-colors hover:text-foreground md:hidden"
+            >
+              <Bell className="size-4" />
+            </Link>
+            <Link
               to="/support"
               aria-label="Service client"
               className="glass rounded-full p-2.5 text-muted-foreground transition-colors hover:text-foreground"
@@ -79,7 +100,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-40 px-2 md:hidden">
         <div className="glass-strong mx-auto flex w-full max-w-lg items-stretch justify-between gap-0.5 rounded-3xl px-1.5 py-1.5">
-          {nav.map(({ to, label, icon: Icon }) => (
+          {nav.filter((n) => n.primary).map(({ to, label, icon: Icon }) => (
             <Link
               key={to}
               to={to}

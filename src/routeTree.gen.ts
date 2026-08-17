@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AmisRouteImport } from './routes/amis'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BienvenueRouteImport } from './routes/bienvenue'
+import { Route as CarteCadeauRouteImport } from './routes/carte-cadeau'
 import { Route as DepotRouteImport } from './routes/depot'
 import { Route as HistoriqueRouteImport } from './routes/historique'
 import { Route as InstallationRouteImport } from './routes/installation'
@@ -21,6 +22,7 @@ import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as RetraitRouteImport } from './routes/retrait'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as TableauDeBordRouteImport } from './routes/tableau-de-bord'
+import { Route as VipRouteImport } from './routes/vip'
 import { Route as AdminCodeRouteImport } from './routes/admin.$code'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +43,11 @@ const AuthRoute = AuthRouteImport.update({
 const BienvenueRoute = BienvenueRouteImport.update({
   id: '/bienvenue',
   path: '/bienvenue',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CarteCadeauRoute = CarteCadeauRouteImport.update({
+  id: '/carte-cadeau',
+  path: '/carte-cadeau',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DepotRoute = DepotRouteImport.update({
@@ -83,6 +90,11 @@ const TableauDeBordRoute = TableauDeBordRouteImport.update({
   path: '/tableau-de-bord',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VipRoute = VipRouteImport.update({
+  id: '/vip',
+  path: '/vip',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminCodeRoute = AdminCodeRouteImport.update({
   id: '/admin/$code',
   path: '/admin/$code',
@@ -94,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/amis': typeof AmisRoute
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
+  '/carte-cadeau': typeof CarteCadeauRoute
   '/depot': typeof DepotRoute
   '/historique': typeof HistoriqueRoute
   '/installation': typeof InstallationRoute
@@ -102,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
+  '/vip': typeof VipRoute
   '/admin/$code': typeof AdminCodeRoute
 }
 export interface FileRoutesByTo {
@@ -109,6 +123,7 @@ export interface FileRoutesByTo {
   '/amis': typeof AmisRoute
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
+  '/carte-cadeau': typeof CarteCadeauRoute
   '/depot': typeof DepotRoute
   '/historique': typeof HistoriqueRoute
   '/installation': typeof InstallationRoute
@@ -117,6 +132,7 @@ export interface FileRoutesByTo {
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
+  '/vip': typeof VipRoute
   '/admin/$code': typeof AdminCodeRoute
 }
 export interface FileRoutesById {
@@ -125,6 +141,7 @@ export interface FileRoutesById {
   '/amis': typeof AmisRoute
   '/auth': typeof AuthRoute
   '/bienvenue': typeof BienvenueRoute
+  '/carte-cadeau': typeof CarteCadeauRoute
   '/depot': typeof DepotRoute
   '/historique': typeof HistoriqueRoute
   '/installation': typeof InstallationRoute
@@ -133,6 +150,7 @@ export interface FileRoutesById {
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
+  '/vip': typeof VipRoute
   '/admin/$code': typeof AdminCodeRoute
 }
 export interface FileRouteTypes {
@@ -142,6 +160,7 @@ export interface FileRouteTypes {
     | '/amis'
     | '/auth'
     | '/bienvenue'
+    | '/carte-cadeau'
     | '/depot'
     | '/historique'
     | '/installation'
@@ -150,6 +169,7 @@ export interface FileRouteTypes {
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
+    | '/vip'
     | '/admin/$code'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -157,6 +177,7 @@ export interface FileRouteTypes {
     | '/amis'
     | '/auth'
     | '/bienvenue'
+    | '/carte-cadeau'
     | '/depot'
     | '/historique'
     | '/installation'
@@ -165,6 +186,7 @@ export interface FileRouteTypes {
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
+    | '/vip'
     | '/admin/$code'
   id:
     | '__root__'
@@ -172,6 +194,7 @@ export interface FileRouteTypes {
     | '/amis'
     | '/auth'
     | '/bienvenue'
+    | '/carte-cadeau'
     | '/depot'
     | '/historique'
     | '/installation'
@@ -180,6 +203,7 @@ export interface FileRouteTypes {
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
+    | '/vip'
     | '/admin/$code'
   fileRoutesById: FileRoutesById
 }
@@ -188,6 +212,7 @@ export interface RootRouteChildren {
   AmisRoute: typeof AmisRoute
   AuthRoute: typeof AuthRoute
   BienvenueRoute: typeof BienvenueRoute
+  CarteCadeauRoute: typeof CarteCadeauRoute
   DepotRoute: typeof DepotRoute
   HistoriqueRoute: typeof HistoriqueRoute
   InstallationRoute: typeof InstallationRoute
@@ -196,6 +221,7 @@ export interface RootRouteChildren {
   RetraitRoute: typeof RetraitRoute
   SupportRoute: typeof SupportRoute
   TableauDeBordRoute: typeof TableauDeBordRoute
+  VipRoute: typeof VipRoute
   AdminCodeRoute: typeof AdminCodeRoute
 }
 
@@ -227,6 +253,13 @@ declare module '@tanstack/react-router' {
       path: '/bienvenue'
       fullPath: '/bienvenue'
       preLoaderRoute: typeof BienvenueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/carte-cadeau': {
+      id: '/carte-cadeau'
+      path: '/carte-cadeau'
+      fullPath: '/carte-cadeau'
+      preLoaderRoute: typeof CarteCadeauRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/depot': {
@@ -285,6 +318,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TableauDeBordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/vip': {
+      id: '/vip'
+      path: '/vip'
+      fullPath: '/vip'
+      preLoaderRoute: typeof VipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/$code': {
       id: '/admin/$code'
       path: '/admin/$code'
@@ -300,6 +340,7 @@ const rootRouteChildren: RootRouteChildren = {
   AmisRoute: AmisRoute,
   AuthRoute: AuthRoute,
   BienvenueRoute: BienvenueRoute,
+  CarteCadeauRoute: CarteCadeauRoute,
   DepotRoute: DepotRoute,
   HistoriqueRoute: HistoriqueRoute,
   InstallationRoute: InstallationRoute,
@@ -308,6 +349,7 @@ const rootRouteChildren: RootRouteChildren = {
   RetraitRoute: RetraitRoute,
   SupportRoute: SupportRoute,
   TableauDeBordRoute: TableauDeBordRoute,
+  VipRoute: VipRoute,
   AdminCodeRoute: AdminCodeRoute,
 }
 export const routeTree = rootRouteImport

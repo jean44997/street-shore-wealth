@@ -25,7 +25,7 @@ export const Route = createFileRoute("/carte-cadeau")({
       { property: "og:description", content: "Une carte à gratter offerte tous les 2 jours." },
     ],
   }),
-  component: CarteCadeau;
+  component: CarteCadeau,
 });
 
 type Card = {
@@ -198,7 +198,7 @@ function CarteCadeau() {
                   ["12,5 %", `Bonus ${fcfa(1000)}`],
                   ["25 %", "Aucun lot — réessayez dans 2 jours"],
                 ].map(([p, t]) => (
-                  <li key={p} className="glass flex items-center gap-3 rounded-2xl px-3 py-2.5">
+                  <li key={t} className="glass flex items-center gap-3 rounded-2xl px-3 py-2.5">
                     <span className="shrink-0 rounded-full bg-primary/15 px-2.5 py-1 text-xs font-extrabold text-primary">
                       {p}
                     </span>
