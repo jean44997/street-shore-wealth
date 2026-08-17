@@ -185,12 +185,14 @@ function Admin() {
   const review = async (id: string, action: "approve" | "reject" | "reclaim") => {
     const note =
       action === "approve"
-        ? null
+        ? ""
         : window.prompt(
-            action === "reject" ? "Motif du refus ?" : "Motif de la reprise des fonds ?",
+            action === "reject"
+              ? "Motif du refus (facultatif) ?"
+              : "Motif de la reprise des fonds (facultatif) ?",
             "",
           );
-    if (action !== "approve" && note === null) return;
+    // Annuler ou champ vide = refus/reprise sans justification
     setBusy(id);
     const { error } = await supabase.rpc("admin_review_deposit", {
       ...args,
