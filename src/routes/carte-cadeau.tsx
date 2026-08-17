@@ -25,7 +25,7 @@ export const Route = createFileRoute("/carte-cadeau")({
       { property: "og:description", content: "Une carte à gratter offerte tous les 2 jours." },
     ],
   }),
-  component: CarteCadeau;
+  component: CarteCadeau,
 });
 
 type Card = {
