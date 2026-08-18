@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { PartyPopper, Rocket, Users, Wallet } from "lucide-react";
+import { MessageCircle, PartyPopper, Rocket, Users, Wallet } from "lucide-react";
 import { GlassCard } from "@/components/GlassCard";
 import { Logo } from "@/components/Logo";
-import { fcfa } from "@/lib/format";
+import { fcfa, WHATSAPP_GROUP } from "@/lib/format";
 
 export const Route = createFileRoute("/bienvenue")({
   head: () => ({
