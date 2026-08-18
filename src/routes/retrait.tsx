@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowDownToLine, Gift, Info, Loader2, Lock, Share2, X } from "lucide-react";
+import { ArrowDownToLine, Clock3, Gift, Info, Loader2, Lock, RefreshCw, Share2, X } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { AppShell } from "@/components/AppShell";
@@ -10,7 +10,7 @@ import { GiftRain } from "@/components/GiftRain";
 import { Timeline, type Step } from "@/components/Timeline";
 import { useRequireAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
-import { dt, fcfa, WITHDRAW_MIN } from "@/lib/format";
+import { dt, fcfa, WITHDRAW_ETA_HOURS, WITHDRAW_MIN } from "@/lib/format";
 
 export const Route = createFileRoute("/retrait")({
   head: () => ({
@@ -30,6 +30,19 @@ export const Route = createFileRoute("/retrait")({
 
 type Referral = { full_name: string; created_at: string; has_deposited: boolean };
 
+type WithdrawStatus = {
+  unlocked: boolean;
+  reason: string;
+  blocked: boolean;
+  has_deposited: boolean;
+  vip: boolean;
+  no_referral: boolean;
+  flag_unlocked: boolean;
+  invited: number;
+  active_referrals: number;
+  pending_withdrawals: number;
+};
+
 function Retrait() {
   const { session } = useRequireAuth();
   const { data: profile, refreshProfile } = useProfile(!!session);
@@ -48,6 +61,21 @@ function Retrait() {
     },
   });
 
+  const {
+    data: status,
+    refetch: refetchStatus,
+    isFetching: checking,
+  } = useQuery({
+    queryKey: ["withdraw-status"],
+    enabled: !!session,
+    refetchInterval: 20000,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("withdraw_status");
+      if (error) throw error;
+      return data as unknown as WithdrawStatus;
+    },
+  });
+
   const { data: history, refetch } = useQuery({
     queryKey: ["withdrawals"],
     enabled: !!session,
@@ -60,9 +88,10 @@ function Retrait() {
     },
   });
 
-  const invited = referrals?.length ?? 0;
-  const active = (referrals ?? []).filter((r) => r.has_deposited).length;
-  const unlocked = active > 0;
+  const invited = status?.invited ?? referrals?.length ?? 0;
+  const active =
+    status?.active_referrals ?? (referrals ?? []).filter((r) => r.has_deposited).length;
+  const unlocked = status?.unlocked ?? false;
 
   const steps: Step[] = [
     {
@@ -78,12 +107,18 @@ function Retrait() {
     {
       title: "Retrait débloqué",
       text: "Votre solde part vers votre numéro Wave.",
-      state: unlocked ? "current" : "todo",
+      state: unlocked ? "done" : "todo",
+    },
+    {
+      title: `Versement Wave sous ${WITHDRAW_ETA_HOURS} h`,
+      text: "Notre équipe traite les retraits manuellement, du lundi au dimanche.",
+      state: (status?.pending_withdrawals ?? 0) > 0 ? "current" : "todo",
     },
   ];
 
   const submit = async () => {
-    if (!unlocked) {
+    const fresh = await refetchStatus();
+    if (!(fresh.data?.unlocked ?? unlocked)) {
       setGate(true);
       return;
     }
@@ -93,6 +128,7 @@ function Retrait() {
       p_number: number,
     });
     setLoading(false);
+    void refetchStatus();
     if (error) {
       const msg = error.message.replace(/^.*?:\s*/, "");
       if (/parrain|ami|filleul/i.test(msg)) setGate(true);
@@ -125,10 +161,23 @@ function Retrait() {
             }`}
           >
             {unlocked ? <Gift className="size-4" /> : <Lock className="size-4" />}
-            {unlocked
-              ? `Retrait débloqué — ${active} ami(s) actif(s)`
-              : "Retrait verrouillé — 1 ami doit recharger 5 000 F"}
+            <span className="min-w-0 flex-1">{status?.reason ?? "Vérification en cours…"}</span>
+            <button
+              type="button"
+              onClick={() => refetchStatus()}
+              aria-label="Actualiser mon statut de retrait"
+              className="shrink-0 rounded-full p-1 transition-transform hover:scale-110"
+            >
+              <RefreshCw className={`size-3.5 ${checking ? "animate-spin" : ""}`} />
+            </button>
           </div>
+
+          {unlocked && (
+            <p className="mt-2 text-xs text-muted-foreground">
+              {active} ami(s) actif(s) sur {invited} invité(s) · versement Wave sous{" "}
+              {WITHDRAW_ETA_HOURS} h après la demande.
+            </p>
+          )}
 
           <div className="mt-5 space-y-3">
             <div className="glass rounded-2xl px-4 py-3">
@@ -183,8 +232,10 @@ function Retrait() {
           <GlassCard className="rise flex items-start gap-3">
             <Info className="mt-0.5 size-5 shrink-0 text-gold" />
             <p className="text-sm text-muted-foreground">
-              Les retraits sont traités manuellement par notre équipe. Le solde est débité dès la
-              demande.
+              Les retraits sont traités manuellement sous <strong>{WITHDRAW_ETA_HOURS} h</strong>{" "}
+              maximum. Le solde est débité dès la demande, puis versé sur votre numéro Wave. Si
+              votre filleul a été validé côté admin et que le retrait reste verrouillé, appuyez sur
+              l'icône d'actualisation ci-contre.
             </p>
           </GlassCard>
         </div>
@@ -205,8 +256,13 @@ function Retrait() {
                   {w.wave_number} · {dt(w.created_at)}
                 </p>
               </div>
-              <span className="shrink-0 rounded-full bg-gold/20 px-3 py-1 text-xs font-bold text-gold">
-                {w.status === "pending" ? "En cours" : "Payé"}
+              <span
+                className={`inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-1 text-xs font-bold ${
+                  w.status === "pending" ? "bg-gold/20 text-gold" : "bg-success/20 text-success"
+                }`}
+              >
+                <Clock3 className="size-3" aria-hidden="true" />
+                {w.status === "pending" ? `En cours · ≤ ${WITHDRAW_ETA_HOURS} h` : "Payé"}
               </span>
             </GlassCard>
           ))}
