@@ -574,6 +574,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      withdraw_status: { Args: never; Returns: Json }
     }
     Enums: {
       [_ in never]: never
