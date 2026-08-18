@@ -10,6 +10,7 @@ import { GiftRain } from "@/components/GiftRain";
 import { useRequireAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
 import { fcfa } from "@/lib/format";
+import { vipProduct } from "@/lib/vip-images";
 
 export const Route = createFileRoute("/vip")({
   head: () => ({
