@@ -192,8 +192,22 @@ function Vip() {
           {(plans ?? []).map((p) => {
             const total = p.daily_income * p.days;
             const affordable = (profile?.balance ?? 0) >= p.price;
+            const prod = vipProduct(p.id);
             return (
               <GlassCard key={p.id} strong className="tilt-3d rise flex flex-col">
+                <div className="relative mb-3 overflow-hidden rounded-3xl bg-white/5">
+                  <img
+                    src={prod.img}
+                    alt={`${prod.label} — plan ${p.tier} Street Shore`}
+                    width={640}
+                    height={640}
+                    loading="lazy"
+                    className="aspect-square w-full object-cover transition-transform duration-500 hover:scale-105"
+                  />
+                  <span className="absolute bottom-2 left-2 rounded-full bg-background/70 px-3 py-1 text-[11px] font-semibold backdrop-blur-md">
+                    {prod.label}
+                  </span>
+                </div>
                 <div className="flex items-center justify-between gap-2">
                   <span className="rounded-full bg-primary/15 px-3 py-1 text-xs font-extrabold text-primary">
                     {p.tier}
@@ -203,6 +217,7 @@ function Vip() {
                 <h3 className="mt-3 text-base font-bold">{p.name}</h3>
                 <p className="mt-1 text-2xl font-extrabold text-gradient">{fcfa(p.price)}</p>
                 <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
+
                   <li>
                     Revenu quotidien :{" "}
                     <span className="font-bold text-foreground">{fcfa(p.daily_income)}</span>
