@@ -324,8 +324,20 @@ function Depot() {
                       ? "Bonus repris"
                       : "Refusé"}
               </span>
-              {last.admin_note && (
-                <p className="mt-2 text-xs text-muted-foreground">Note : {last.admin_note}</p>
+              {(last.status === "rejected" || last.status === "reclaimed") && (
+                <div className="mt-3 rounded-2xl bg-destructive/10 px-3 py-2 text-left">
+                  <p className="text-[11px] font-bold text-destructive">
+                    {last.status === "rejected" ? "MOTIF DU REFUS" : "MOTIF DE LA REPRISE"}
+                  </p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    {last.admin_note?.trim() || "Aucun motif précisé par l'équipe."}
+                  </p>
+                </div>
+              )}
+              {last.status === "credited" && last.admin_note?.trim() && (
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Note de l'équipe : {last.admin_note}
+                </p>
               )}
             </GlassCard>
           )}

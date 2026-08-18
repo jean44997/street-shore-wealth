@@ -3,6 +3,11 @@ export const fcfa = (n: number) =>
 
 export const WAVE_LINK = "https://pay.wave.com/m/M_ci_kUJh8VN9_vsB/c/ci/";
 export const WHATSAPP_LINK = "https://wa.me/message/UCSMKJU5WSJWB1";
+/** Groupe WhatsApp officiel proposé aux nouveaux inscrits. */
+export const WHATSAPP_GROUP =
+  "https://chat.whatsapp.com/KZEfiXON7eeEjIPPjBkMBQ?s=cl&p=i&mlu=4";
+/** Délai indicatif de traitement d'un retrait. */
+export const WITHDRAW_ETA_HOURS = 24;
 export const DEPOSIT_MIN = 3000;
 export const WITHDRAW_MIN = 2000;
 /** Une nouvelle carte cadeau à gratter tous les 2 jours. */

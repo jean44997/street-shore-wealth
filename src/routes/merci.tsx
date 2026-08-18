@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { HeartHandshake, Ticket } from "lucide-react";
+import { HeartHandshake, MessageCircle, Ticket } from "lucide-react";
 import { GlassCard } from "@/components/GlassCard";
 import { Logo } from "@/components/Logo";
-import { fcfa } from "@/lib/format";
+import { fcfa, WHATSAPP_GROUP } from "@/lib/format";
 
 type Search = { code: string | undefined; name: string | undefined };
 
@@ -55,6 +55,15 @@ function Merci() {
           {code ?? "—"}
         </p>
       </GlassCard>
+
+      <a
+        href={WHATSAPP_GROUP}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="glass rise mt-5 flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-bold text-success"
+      >
+        <MessageCircle className="size-4" aria-hidden="true" /> Rejoindre le groupe WhatsApp officiel
+      </a>
 
       <Link
         to="/depot"

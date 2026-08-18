@@ -83,11 +83,13 @@ function Historique() {
           label: `Dépôt Wave ${fcfa(d.amount)}`,
           sub:
             d.status === "credited"
-              ? "Vérifié par l'équipe"
+              ? d.admin_note?.trim()
+                ? `Vérifié par l'équipe — ${d.admin_note}`
+                : "Vérifié par l'équipe"
               : d.status === "rejected"
-                ? d.admin_note || "Paiement introuvable"
+                ? `Motif du refus : ${d.admin_note?.trim() || "aucun motif précisé"}`
                 : d.status === "reclaimed"
-                  ? "Bonus repris après vérification"
+                  ? `Motif de la reprise : ${d.admin_note?.trim() || "aucun motif précisé"}`
                   : "Vérification en cours (≈ 10 min)",
           amount: d.amount,
           sign: "",
@@ -112,7 +114,7 @@ function Historique() {
             date: d.reviewed_at ?? d.created_at,
             kind: "bonus",
             label: "Bonus repris",
-            sub: d.admin_note || "Vérification anti-fraude",
+            sub: `Motif : ${d.admin_note?.trim() || "aucun motif précisé"}`,
             amount: d.amount * 4,
             sign: "-",
             status: "ko",
