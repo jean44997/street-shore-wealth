@@ -130,10 +130,18 @@ function Vip() {
         </span>
         <h1 className="rise mt-3 text-2xl font-extrabold sm:text-3xl">Plans VIP Street Shore</h1>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          Activez un plan avec votre solde : votre revenu tombe chaque jour et reste retirable sans
-          ajouter d'ami. Solde actuel :{" "}
+          Activez un plan avec votre solde : votre revenu tombe chaque jour. Solde actuel :{" "}
           <span className="font-bold text-gradient">{fcfa(profile?.balance ?? 0)}</span>.
         </p>
+        <div className="glass mt-4 max-w-2xl rounded-2xl px-4 py-3 text-sm">
+          <p className="font-bold text-gold">🛡️ Statut Membre Actif VIP</p>
+          <p className="mt-1 text-muted-foreground">
+            Pour garder un réseau sain et prouver que votre compte est actif, chaque membre VIP
+            parraine <strong className="text-foreground">1 à 3 amis</strong> qui rechargent{" "}
+            <strong className="text-foreground">5 000 F</strong>. Dès le 1er filleul validé :
+            retrait <strong className="text-foreground">immédiat et sans frais</strong>.
+          </p>
+        </div>
 
         <div className="mt-5 flex flex-wrap gap-3">
           <button
