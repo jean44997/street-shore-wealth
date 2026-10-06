@@ -241,6 +241,27 @@ function AuthPage() {
           )}
         </div>
 
+        {mode === "login" && (
+          <button
+            type="button"
+            onClick={async () => {
+              const email = form.email.trim();
+              if (!z.string().email().safeParse(email).success) {
+                toast.error("Entrez d'abord votre adresse e-mail ci-dessus.");
+                return;
+              }
+              const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: `${window.location.origin}/reset-password`,
+              });
+              if (error) toast.error(error.message);
+              else toast.success("E-mail envoyé ! Cliquez sur le lien reçu pour choisir un nouveau mot de passe.", { icon: "📩" });
+            }}
+            className="mt-3 text-xs font-semibold text-primary underline-offset-4 hover:underline"
+          >
+            Mot de passe oublié ?
+          </button>
+        )}
+
         <button
           disabled={loading}
           onClick={mode === "signup" ? handleSignup : handleLogin}

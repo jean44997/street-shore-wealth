@@ -19,6 +19,7 @@ import { Route as HistoriqueRouteImport } from './routes/historique'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as MerciRouteImport } from './routes/merci'
 import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RetraitRouteImport } from './routes/retrait'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as TableauDeBordRouteImport } from './routes/tableau-de-bord'
@@ -75,6 +76,11 @@ const NotificationsRoute = NotificationsRouteImport.update({
   path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RetraitRoute = RetraitRouteImport.update({
   id: '/retrait',
   path: '/retrait',
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/installation': typeof InstallationRoute
   '/merci': typeof MerciRoute
   '/notifications': typeof NotificationsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/installation': typeof InstallationRoute
   '/merci': typeof MerciRoute
   '/notifications': typeof NotificationsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/installation': typeof InstallationRoute
   '/merci': typeof MerciRoute
   '/notifications': typeof NotificationsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/retrait': typeof RetraitRoute
   '/support': typeof SupportRoute
   '/tableau-de-bord': typeof TableauDeBordRoute
@@ -166,6 +175,7 @@ export interface FileRouteTypes {
     | '/installation'
     | '/merci'
     | '/notifications'
+    | '/reset-password'
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
@@ -183,6 +193,7 @@ export interface FileRouteTypes {
     | '/installation'
     | '/merci'
     | '/notifications'
+    | '/reset-password'
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '/installation'
     | '/merci'
     | '/notifications'
+    | '/reset-password'
     | '/retrait'
     | '/support'
     | '/tableau-de-bord'
@@ -218,6 +230,7 @@ export interface RootRouteChildren {
   InstallationRoute: typeof InstallationRoute
   MerciRoute: typeof MerciRoute
   NotificationsRoute: typeof NotificationsRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   RetraitRoute: typeof RetraitRoute
   SupportRoute: typeof SupportRoute
   TableauDeBordRoute: typeof TableauDeBordRoute
@@ -297,6 +310,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/retrait': {
       id: '/retrait'
       path: '/retrait'
@@ -346,6 +366,7 @@ const rootRouteChildren: RootRouteChildren = {
   InstallationRoute: InstallationRoute,
   MerciRoute: MerciRoute,
   NotificationsRoute: NotificationsRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   RetraitRoute: RetraitRoute,
   SupportRoute: SupportRoute,
   TableauDeBordRoute: TableauDeBordRoute,
