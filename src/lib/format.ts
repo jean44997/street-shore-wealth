@@ -13,8 +13,8 @@ export const WITHDRAW_MIN = 2000;
 /** Une nouvelle carte cadeau à gratter tous les 2 jours. */
 export const SCRATCH_INTERVAL_DAYS = 2;
 
-/** Fin de l'opération cadeaux Street Shore : 1 mois et 7 jours. */
-export const EVENT_END = new Date("2026-09-22T00:00:00Z");
+/** Fin de l'opération cadeaux Street Shore (prolongée d'1 mois). */
+export const EVENT_END = new Date("2026-11-06T00:00:00Z");
 
 export const dt = (v: string | Date) =>
   new Date(v).toLocaleString("fr-FR", {
