@@ -38,12 +38,21 @@ function ResetPassword() {
   }, []);
 
   const submit = async () => {
-    if (pwd.length < 6) return toast.error("6 caractères minimum.");
-    if (pwd !== confirm) return toast.error("Les mots de passe ne correspondent pas.");
+    if (pwd.length < 6) {
+      toast.error("6 caractères minimum.");
+      return;
+    }
+    if (pwd !== confirm) {
+      toast.error("Les mots de passe ne correspondent pas.");
+      return;
+    }
     setLoading(true);
     const { error } = await supabase.auth.updateUser({ password: pwd });
     setLoading(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Mot de passe mis à jour ! Bienvenue 🌊");
     navigate({ to: "/tableau-de-bord" });
   };
