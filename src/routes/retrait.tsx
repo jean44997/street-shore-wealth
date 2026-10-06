@@ -287,14 +287,26 @@ function Retrait() {
             <div className="tilt-3d mx-auto grid size-20 place-items-center rounded-3xl bg-gradient-to-br from-gold/40 to-primary/30 text-4xl">
               🎁
             </div>
-            <h2 className="mt-4 text-xl font-extrabold sm:text-2xl">Encore une étape !</h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Avant de faire le retrait, vous devez{" "}
-              <strong className="text-foreground">ajouter obligatoirement 1 personne</strong> avec
-              votre code d'invitation. Cette personne doit ensuite{" "}
-              <strong className="text-foreground">se recharger de 5 000 F</strong>. Vous recevrez
-              alors votre retrait 🌊
-            </p>
+            <h2 className="mt-4 text-xl font-extrabold sm:text-2xl">
+              {status?.vip ? "Prouvez que vous êtes un membre actif !" : "Encore une étape !"}
+            </h2>
+            {status?.vip ? (
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                En tant que membre VIP, parrainez{" "}
+                <strong className="text-foreground">au moins 1 ami (jusqu'à 3)</strong> qui se
+                recharge de <strong className="text-foreground">5 000 F</strong>. Votre compte
+                passe alors <strong className="text-foreground">Membre Actif</strong> : retrait
+                immédiat et sans frais 🌊 ({Math.min(active, 3)}/3 filleuls validés)
+              </p>
+            ) : (
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Avant de faire le retrait, vous devez{" "}
+                <strong className="text-foreground">ajouter obligatoirement 1 personne</strong> avec
+                votre code d'invitation. Cette personne doit ensuite{" "}
+                <strong className="text-foreground">se recharger de 5 000 F</strong>. Vous recevrez
+                alors votre retrait 🌊
+              </p>
+            )}
             <div className="glass mt-4 rounded-2xl px-4 py-3">
               <p className="text-xs text-muted-foreground">VOTRE CODE D'INVITATION</p>
               <p className="text-2xl font-extrabold tracking-[0.2em] text-gold">
